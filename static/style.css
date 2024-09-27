@@ -79,6 +79,13 @@ table {
     font-weight: bold;
 }
 
+#shortcutButt {
+    display: block;
+    margin: auto;
+    padding: 10px;
+    font-size: 25px;
+}
+
 
 .card-text {
     text-align: center;
@@ -103,7 +110,6 @@ table {
 }
 
 footer{
-    border: 0;
     background-color: #c11214;
     color: black;
 }
