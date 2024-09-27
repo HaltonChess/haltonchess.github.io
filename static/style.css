@@ -19,7 +19,7 @@ nav {
 
 .nav-link{
     padding-left: 10px;
-    color: #81B64C;
+    color: #c11214;
 }
 
 #heroTitle{
@@ -78,8 +78,13 @@ table {
     font-weight: bold;
 }
 
+
 .card-text {
     text-align: center;
+}
+
+#affiliates div .card {
+    background-color: rgb(60, 60, 60);
 }
 
 #affiliates div .card:hover{
@@ -97,7 +102,8 @@ table {
 }
 
 footer{
-    background-color: #769656;
+    border: 0;
+    background-color: #c11214;
 }
 
 .whiteButton {
@@ -131,33 +137,6 @@ td > span{
     object-fit: cover;
     overflow: hidden;
     height:100vh;
-}
-
-#img1 {
-    object-position: 50% 70%;
-}
-
-#img2 {
-    object-position: 50% 80%;
-}
-
-#img4 {
-    object-position: 80% 80%;
-}
-#img5 {
-    object-position: 50% 30%;
-}
-#img6 {
-    object-position: 50% 30%;
-}
-#img7 {
-    object-position: 50% 50%;
-}
-#img8 {
-    object-position: 50% 30%;
-}
-#img9 {
-    object-position: 50% 70%;
 }
 
 
