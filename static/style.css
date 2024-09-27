@@ -29,7 +29,7 @@ nav {
     transform: translate(-50%, -50%);
     font-size: 80px;
     font-weight: bold;
-    color: white;
+    color: #b9dede;
     text-align: center;
     /* width: 100% */
 }
@@ -41,7 +41,7 @@ nav {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 30px;
-    color: rgb(194, 194, 194);
+    color: white;
 }
 
 @media (max-width: 1107px) {
@@ -88,7 +88,7 @@ table {
 }
 
 #affiliates div .card:hover{
-    background-color: #eeeed2;
+    background-color: rgb(52, 52, 52);
 }
 
 .container-fluid {
@@ -104,6 +104,11 @@ table {
 footer{
     border: 0;
     background-color: #c11214;
+    color: black;
+}
+
+footer a{
+    color: #720709
 }
 
 .whiteButton {
