@@ -3,6 +3,7 @@ function verify(){
     password = document.getElementById('password').value
 
     if (username == "VidsterBroyo" && password == "bozo"){
+        document.getElementById("leaderboardManagement").style.display = "block"
         document.getElementById("managementForm").style.display = "block"
         document.getElementById("googleSheet").style.display = "block"
     } else {
