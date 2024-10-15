@@ -13,7 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <link href="static/bootstrapStyling.css" rel="stylesheet">
   <link href="static/style.css" rel="stylesheet">
-  <link rel="icon" href="static/img/OntarioLogo.png" type="image/png">
+  <link rel="icon" href="static/img/SLCA.png" type="image/png">
 </head>
 
 <body>
@@ -136,23 +136,34 @@
     </div>
     <br>
 
-    <div class="row imageRow g-4">
-      <div class="col-md-4">
-        <img src="static/img/HCC2024/IMG_6779.jpg">
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img style="object-position: 0% 62%;" src="static/img/HCC2024/IMG_6779.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img style="object-position: 0% 70%;" src="static/img/HCC2024/IMG_6787.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img style="object-position: 0% 55%;" src="static/img/HCC2024/IMG_6774.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img style="object-position: 0% 45%;" src="static/img/HCC2024/IMG_6781.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img style="object-position: 0% 85%;" src="static/img/HCC2024/IMG_6780.jpg" class="d-block w-100" alt="...">
+        </div>
       </div>
-      <div class="col-md-4">
-        <img src="static/img/HCC2024/IMG_6787.jpg">
-      </div>
-      <div class="col-md-4">
-        <img src="static/img/HCC2024/IMG_6774.jpg">
-      </div>
-      <div class="col-md-7">
-        <img src="static/img/HCC2024/IMG_6781.jpg">
-      </div>
-      <div class="col-md-5">
-        <img src="static/img/HCC2024/IMG_6780.jpg">
-      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
+
 
 
 
