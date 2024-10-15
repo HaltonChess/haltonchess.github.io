@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>Sheets API take 2</p>
+    <p>Sheets API take 3</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
@@ -24,7 +24,7 @@
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+      const SCOPES = 'https://www.googleapis.com/auth/spreadsheets'
 
       let tokenClient;
       let gapiInited = false;
