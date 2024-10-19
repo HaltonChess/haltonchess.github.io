@@ -33,14 +33,18 @@ async function getLeaderboard() {
         return;
     }
 
+
     
-    leaderboard = response.result.values
+    response.result.values.forEach((row) => {
+        leaderboard.push(row[0])
+    });
+
     console.log(leaderboard)
 
     document.getElementById('leaderboard').innerHTML = ""
 
     leaderboard.forEach((row) => {
-        document.getElementById('leaderboard').innerHTML += `<li>${row[0]}</li>`;
+        document.getElementById('leaderboard').innerHTML += `<li>${row}</li>`;
     });
 }
 
@@ -49,7 +53,7 @@ function updateLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
 
     leaderboard.forEach((row) => {
-        document.getElementById('leaderboard').innerHTML += `<li>${row[0]}</li>`;
+        document.getElementById('leaderboard').innerHTML += `<li>${row}</li>`;
     });
 
     // update google sheet here too
@@ -61,8 +65,10 @@ async function submitMatch() {
     winner = document.getElementById('winner').value
     loser = document.getElementById('loser').value
 
-    winnerIndex = leaderboard.indexOf([winner])
-    loserIndex = leaderboard.indexOf([loser])
+    winnerIndex = leaderboard.indexOf(winner)
+    console.log(winner)
+    console.log(leaderboard.indexOf(winner))
+    loserIndex = leaderboard.indexOf(loser)
 
     if (winnerIndex == -1 || loserIndex == -1) {
         alert("a player was not found - make sure they are in the leaderboard sheet")
@@ -77,12 +83,12 @@ async function submitMatch() {
     else {
         if (loserIndex > winnerIndex && loserIndex != len(leaderboard) - 1) {
             leaderboard.splice(loserIndex, 1)
-            leaderboard.splice(loserIndex + 1, 0, [loser])
+            leaderboard.splice(loserIndex + 1, 0, loser)
             alert(loser, "was too cocky of their skills.", winner, "destroyed them.", loser, "moved down one.")
         }
 
         else if(loserIndex < winnerIndex){
-            leaderboard.splice(loserIndex, 0, [winner])
+            leaderboard.splice(loserIndex, 0, winner)
             leaderboard.splice(winnerIndex + 1, 1)
             alert(loser, "let their guard down and", winner, "got the jump on them. congrats")
         }
