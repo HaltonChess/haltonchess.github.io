@@ -65,6 +65,7 @@
 
 
     <div id="adminAccess">
+      <button onclick="getLeaderboard()">get leaderboard</button>
       
       <ol id="leaderboard">
 
@@ -132,11 +133,7 @@
         document.getElementById('signout_button').style.visibility = 'visible';
         document.getElementById('authorize_button').innerText = 'Refresh';
         document.getElementById('adminAccess').style.display = 'block';
-        leaderboard = await getLeaderboard();
-
-        leaderboard.forEach((row) => {
-          document.getElementById('leaderboard').innerHTML += `<li>${row[0]}</li>`;
-        });
+        
       };
 
       if (gapi.client.getToken() === null) {
