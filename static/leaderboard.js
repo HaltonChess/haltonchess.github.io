@@ -1,10 +1,10 @@
 let leaderboard = []
 
-function verify(){
+function verify() {
     username = document.getElementById('username').value
     password = document.getElementById('password').value
 
-    if (username == "VidsterBroyo" && password == "bozo"){
+    if (username == "VidsterBroyo" && password == "bozo") {
         document.getElementById("leaderboardManagement").style.display = "block"
         document.getElementById("managementForm").style.display = "block"
         document.getElementById("googleSheet").style.display = "block"
@@ -13,36 +13,76 @@ function verify(){
     }
 }
 
-function updateLeaderboard(){
+function updateLeaderboard() {
     winner = document.getElementById('winner').value
     loser = document.getElementById('loser').value
-    alert("the winner was "+ winner+ " and the loser was "+loser)
+    alert("the winner was " + winner + " and the loser was " + loser)
 }
 
 
 async function getLeaderboard() {
     let response;
     try {
-      // Fetch first 10 files
-      response = await gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI',
-        range: 'Ladder!B2:B',
-      });
+        // Fetch first 10 files
+        response = await gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: '1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI',
+            range: 'Ladder!B2:B',
+        });
     } catch (err) {
-      document.getElementById('leaderboard').innerHTML = err.message;
-      return;
+        document.getElementById('leaderboard').innerHTML = err.message;
+        return;
     }
 
-
     leaderboard = response.result.values
+
     console.log(response)
     console.log(leaderboard)
-    
+
+    updateLeaderboard()
+}
+
+
+function updateLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
 
     leaderboard.forEach((row) => {
         document.getElementById('leaderboard').innerHTML += `<li>${row[0]}</li>`;
     });
+}
 
-    return response.result.values
-  }
+
+async function submitMatch() {
+    challenger = document.getElementById('challenger').value
+    winner = document.getElementById('winner').value
+    loser = document.getElementById('loser').value
+
+    try {
+        winnerIndex = leaderboard.index([winner])
+        loserIndex = leaderboard.index([loser])
+    } catch (err) {
+        alert("a player was not found - make sure they are in the leaderboard sheet")
+        return;
+    }
+
+    if (challenger == winner && winnerIndex < loserIndex) {
+        print(winner, "just wanted to bully", loser, ". nothing happens.", winner, "should be ashamed of themself.")
+    }
+
+    else {
+        if (loserIndex > winnerIndex && loserIndex != len(leaderboard) - 1) {
+            leaderboard.splice(loserIndex, 1)
+            leaderboard.splice(loserIndex + 1, 0, [loser])
+            alert(loser, "was too cocky of their skills.", winner, "destroyed them.", loser, "moved down one.")
+        }
+
+        else if(loserIndex < winnerIndex){
+            leaderboard.splice(loserIndex, 0, [winner])
+            leaderboard.splice(winnerIndex + 1, 1)
+            alert(loser, "let their guard down and", winner, "got the jump on them. congrats")
+        }
+    }
+
+    updateLeaderboard()
+
+
+}

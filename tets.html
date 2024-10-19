@@ -60,7 +60,7 @@
     <br>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="authorize_button" onclick="handleAuthClick()">Sign In</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 
 
@@ -70,6 +70,24 @@
       <ol id="leaderboard">
 
       </ol>
+
+      <form id="managementForm" >
+        <div class="form-group">
+          <label for="challenger">Challenger</label>
+          <input class="form-control" id="challenger" placeholder="name">
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="loser">Defeated</label>
+          <input class="form-control" id="loser" placeholder="name">
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="winner">Victorious</label>
+          <input class="form-control" id="winner" placeholder="name">
+        </div>
+        <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
+      </form>
 
     </div>
 
