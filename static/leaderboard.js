@@ -56,7 +56,7 @@ function updateLeaderboard() {
         document.getElementById('leaderboard').innerHTML += `<li>${row}</li>`;
     });
 
-    // update google sheet here too
+    // update google sheet here 
 }
 
 
@@ -77,20 +77,20 @@ async function submitMatch() {
 
 
     if (challenger == winner && winnerIndex < loserIndex) {
-        alert(winner, "just wanted to bully", loser, ". nothing happens.", winner, "should be ashamed of themself.")
+        alert(`${winner} just wanted to bully ${loser}. nothing happens. ${winner} should be ashamed of themself.`)
     }
 
     else {
         if (loserIndex > winnerIndex && loserIndex != len(leaderboard) - 1) {
             leaderboard.splice(loserIndex, 1)
             leaderboard.splice(loserIndex + 1, 0, loser)
-            alert(loser, "was too cocky of their skills.", winner, "destroyed them.", loser, "moved down one.")
+            alert(`${loser} was too cocky of their skills. ${winner} destroyed them. ${loser} moved down one.`)
         }
 
         else if(loserIndex < winnerIndex){
             leaderboard.splice(loserIndex, 0, winner)
             leaderboard.splice(winnerIndex + 1, 1)
-            alert(loser, "let their guard down and", winner, "got the jump on them. congrats")
+            alert(loser + " let their guard down and " + winner + " got the jump on them. congrats")
         }
     }
 
