@@ -33,12 +33,15 @@ async function getLeaderboard() {
         return;
     }
 
+    
     leaderboard = response.result.values
-
-    console.log(response)
     console.log(leaderboard)
 
-    updateLeaderboard()
+    document.getElementById('leaderboard').innerHTML = ""
+
+    leaderboard.forEach((row) => {
+        document.getElementById('leaderboard').innerHTML += `<li>${row[0]}</li>`;
+    });
 }
 
 
@@ -48,6 +51,8 @@ function updateLeaderboard() {
     leaderboard.forEach((row) => {
         document.getElementById('leaderboard').innerHTML += `<li>${row[0]}</li>`;
     });
+
+    // update google sheet here too
 }
 
 
@@ -56,16 +61,17 @@ async function submitMatch() {
     winner = document.getElementById('winner').value
     loser = document.getElementById('loser').value
 
-    try {
-        winnerIndex = leaderboard.index([winner])
-        loserIndex = leaderboard.index([loser])
-    } catch (err) {
+    winnerIndex = leaderboard.indexOf([winner])
+    loserIndex = leaderboard.indexOf([loser])
+
+    if (winnerIndex == -1 || loserIndex == -1) {
         alert("a player was not found - make sure they are in the leaderboard sheet")
         return;
     }
 
+
     if (challenger == winner && winnerIndex < loserIndex) {
-        print(winner, "just wanted to bully", loser, ". nothing happens.", winner, "should be ashamed of themself.")
+        alert(winner, "just wanted to bully", loser, ". nothing happens.", winner, "should be ashamed of themself.")
     }
 
     else {
@@ -83,6 +89,4 @@ async function submitMatch() {
     }
 
     updateLeaderboard()
-
-
 }

@@ -67,9 +67,7 @@
     <div id="adminAccess">
       <button onclick="getLeaderboard()">get leaderboard</button>
       
-      <ol id="leaderboard">
-
-      </ol>
+      <ol id="leaderboard"></ol>
 
       <form id="managementForm" >
         <div class="form-group">
@@ -149,8 +147,9 @@
           throw (resp);
         }
         document.getElementById('signout_button').style.visibility = 'visible';
-        document.getElementById('authorize_button').innerText = 'Refresh';
+        document.getElementById('authorize_button').style.visibility = 'hidden';
         document.getElementById('adminAccess').style.display = 'block';
+        getLeaderboard()
         
       };
 
