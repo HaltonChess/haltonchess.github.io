@@ -17,7 +17,7 @@ function updateLeaderboard(){
     alert("the winner was "+ winner+ " and the loser was "+loser)
 }
 
-async function listMajors() {
+async function getLeaderboard() {
     let response;
     try {
       // Fetch first 10 files
@@ -32,5 +32,6 @@ async function listMajors() {
 
     console.log(response)
     console.log(response.result.values)
-    document.getElementById('content').innerText = response;
+
+    return response.result.values
   }

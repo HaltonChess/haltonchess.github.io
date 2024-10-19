@@ -186,6 +186,10 @@ image {
     width: 40%;
 }
 
+#adminAccess {
+    display: none;
+}
+
 #manual {
     display: none;
 }
