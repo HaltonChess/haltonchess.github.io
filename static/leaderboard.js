@@ -54,7 +54,12 @@ function updateLeaderboard() {
     // service = build('sheets', 'v4', credentials = creds)
 
     console.log(leaderboard)
-    
+    GSLeaderboard = []
+    leaderboard.forEach((row) => {
+        GSLeaderboard.push([row])
+    });
+    console.log(GSLeaderboard)
+
     try {
         // result = service.spreadsheets().values().update(
         // spreadsheetId = SPREADSHEET_ID, range = 'B2', valueInputOption = "USER_ENTERED", body = { "values": leaderboard }).execute()
@@ -64,7 +69,7 @@ function updateLeaderboard() {
             spreadsheetId: SPREADSHEET_ID,
             range: 'B2',
             valueInputOption: "USER_ENTERED",
-            resource: { "values": leaderboard },
+            resource: { "values": GSLeaderboard },
         }).then((response) => {
             const result = response.result;
             console.log(`${result.updatedCells} cells updated.`);
