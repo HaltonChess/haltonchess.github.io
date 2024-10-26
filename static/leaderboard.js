@@ -46,11 +46,12 @@ async function getBadPlayers() {
     .then((res) => res.text())
     .then((text) => {
         response = text
+        badPlayers = response.split(" ")
+        console.log(badPlayers)
     })
     .catch((e) => console.error(e));
 
-    badPlayers = response.split(" ")
-    console.log(badPlayers)
+    
     
     // console.log(leaderboard)
     // displayLeaderboard()
