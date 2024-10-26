@@ -45,10 +45,12 @@ async function getBadPlayers() {
     fetch("static/badPlayers.txt")
     .then((res) => res.text())
     .then((text) => {
-        console.log(text)
+        response = text
     })
     .catch((e) => console.error(e));
 
+    badPlayers = response.split(" ")
+    console.log(badPlayers)
     
     // console.log(leaderboard)
     // displayLeaderboard()
