@@ -53,7 +53,8 @@ function displayLeaderboard() {
 function updateLeaderboard() {
     // service = build('sheets', 'v4', credentials = creds)
 
-
+    console.log(leaderboard)
+    
     try {
         // result = service.spreadsheets().values().update(
         // spreadsheetId = SPREADSHEET_ID, range = 'B2', valueInputOption = "USER_ENTERED", body = { "values": leaderboard }).execute()
@@ -74,6 +75,8 @@ function updateLeaderboard() {
         return;
     }
 }
+
+
 
 
 async function submitMatch() {
