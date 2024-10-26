@@ -39,6 +39,21 @@ async function getLeaderboard() {
     displayLeaderboard()
 }
 
+async function getBadPlayers() {
+    let response;
+
+    fetch("badPlayers.txt")
+    .then((res) => res.text())
+    .then((text) => {
+        console.log(text)
+    })
+    .catch((e) => console.error(e));
+
+    
+    // console.log(leaderboard)
+    // displayLeaderboard()
+}
+
 
 function displayLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
@@ -51,8 +66,6 @@ function displayLeaderboard() {
 
 // update google sheet 
 function updateLeaderboard() {
-    // service = build('sheets', 'v4', credentials = creds)
-
     console.log(leaderboard)
     GSLeaderboard = []
     leaderboard.forEach((row) => {
@@ -61,10 +74,6 @@ function updateLeaderboard() {
     console.log(GSLeaderboard)
 
     try {
-        // result = service.spreadsheets().values().update(
-        // spreadsheetId = SPREADSHEET_ID, range = 'B2', valueInputOption = "USER_ENTERED", body = { "values": leaderboard }).execute()
-
-
         gapi.client.sheets.spreadsheets.values.update({
             spreadsheetId: SPREADSHEET_ID,
             range: 'B2',
@@ -72,8 +81,7 @@ function updateLeaderboard() {
             resource: { "values": GSLeaderboard },
         }).then((response) => {
             const result = response.result;
-            console.log(`${result.updatedCells} cells updated.`);
-            if (callback) callback(response);
+            console.log(`updated`);
         });
     } catch (err) {
         console.error(err);

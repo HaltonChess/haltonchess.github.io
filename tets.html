@@ -59,7 +59,7 @@
       <h1 class="title">Chess Leaderboard Management</h1>
     </div>
 
-    <p>hair</p>
+    <p>her</p>
 
     <br>
 
@@ -89,6 +89,9 @@
         </div>
         <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
       </form>
+
+      <button onclick="derank()"> End Competition Period </button>
+      <p><i>this will move non-challenge players down</i></p>
 
     </div>
 
@@ -153,6 +156,7 @@
         document.getElementById('authorize_button').style.visibility = 'hidden';
         document.getElementById('adminAccess').style.display = 'block';
         getLeaderboard()
+        getBadPlayers()
         
       };
 
