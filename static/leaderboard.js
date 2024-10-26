@@ -1,4 +1,5 @@
 let leaderboard = []
+let SPREADSHEET_ID = "1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI"
 
 function verify() {
     username = document.getElementById('username').value
@@ -13,19 +14,13 @@ function verify() {
     }
 }
 
-function updateLeaderboard() {
-    winner = document.getElementById('winner').value
-    loser = document.getElementById('loser').value
-    alert("the winner was " + winner + " and the loser was " + loser)
-}
-
 
 async function getLeaderboard() {
     let response;
     try {
         // Fetch first 10 files
         response = await gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: '1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI',
+            spreadsheetId: SPREADSHEET_ID,
             range: 'Ladder!B2:B',
         });
     } catch (err) {
@@ -34,13 +29,18 @@ async function getLeaderboard() {
     }
 
 
-    
     response.result.values.forEach((row) => {
         leaderboard.push(row[0])
     });
 
     console.log(leaderboard)
 
+
+    displayLeaderboard()
+}
+
+
+function displayLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
 
     leaderboard.forEach((row) => {
@@ -49,14 +49,30 @@ async function getLeaderboard() {
 }
 
 
+// update google sheet 
 function updateLeaderboard() {
-    document.getElementById('leaderboard').innerHTML = ""
+    service = build('sheets', 'v4', credentials = creds)
 
-    leaderboard.forEach((row) => {
-        document.getElementById('leaderboard').innerHTML += `<li>${row}</li>`;
-    });
 
-    // update google sheet here 
+    try {
+        // result = service.spreadsheets().values().update(
+        // spreadsheetId = SPREADSHEET_ID, range = 'B2', valueInputOption = "USER_ENTERED", body = { "values": leaderboard }).execute()
+
+
+        gapi.client.sheets.spreadsheets.values.update({
+            spreadsheetId: SPREADSHEET_ID,
+            range: 'B2',
+            valueInputOption: "USER_ENTERED",
+            resource: { "values": leaderboard },
+        }).then((response) => {
+            const result = response.result;
+            console.log(`${result.updatedCells} cells updated.`);
+            if (callback) callback(response);
+        });
+    } catch (err) {
+        console.error(err);
+        return;
+    }
 }
 
 
@@ -87,12 +103,13 @@ async function submitMatch() {
             alert(`${loser} was too cocky of their skills. ${winner} destroyed them. ${loser} moved down one.`)
         }
 
-        else if(loserIndex < winnerIndex){
+        else if (loserIndex < winnerIndex) {
             leaderboard.splice(loserIndex, 0, winner)
             leaderboard.splice(winnerIndex + 1, 1)
             alert(loser + " let their guard down and " + winner + " got the jump on them. congrats")
         }
     }
 
+    displayLeaderboard()
     updateLeaderboard()
 }
