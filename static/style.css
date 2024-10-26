@@ -127,7 +127,7 @@ footer{
 }
 
 footer a{
-    color: #720709
+    color: #f6383b;
 }
 
 .whiteButton {
@@ -162,6 +162,42 @@ td > span{
     overflow: hidden;
     height:100vh;
 }
+
+
+
+.profile {
+    text-align: center;
+}
+
+.profilePicture {
+    width: 40%;
+    border-radius: 100%;
+    margin: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 1107px) {
+    .profilePicture{width: 50%;}
+}
+
+
+.profile h3 {
+    font-weight: bold;
+    color: #b9dede;
+}
+
+.profile h5 {
+    color: rgb(205, 205, 205);
+}
+
+.profile p {
+    width: 90%;
+    margin: auto;
+    font-family: "Montserrat";
+    line-height: 1.6;
+}
+
 
 
 .card-header, .card-footer {
