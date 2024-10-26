@@ -46,15 +46,10 @@ async function getBadPlayers() {
     .then((res) => res.text())
     .then((text) => {
         response = text
-        badPlayers = response.split(" ")
+        badPlayers = response.split("\n")
         console.log(badPlayers)
     })
     .catch((e) => console.error(e));
-
-    
-    
-    // console.log(leaderboard)
-    // displayLeaderboard()
 }
 
 
