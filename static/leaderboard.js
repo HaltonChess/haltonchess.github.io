@@ -51,7 +51,7 @@ function displayLeaderboard() {
 
 // update google sheet 
 function updateLeaderboard() {
-    service = build('sheets', 'v4', credentials = creds)
+    // service = build('sheets', 'v4', credentials = creds)
 
 
     try {
