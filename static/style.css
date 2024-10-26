@@ -181,6 +181,18 @@ td > span{
     .profilePicture{width: 50%;}
 }
 
+.carousel-control-next-icon {
+    height: 100px;
+    width: 100px;
+    /* background-image: url("data:image/svg+xml,%3c%3fxml version='1.0' standalone='no'%3f%3e %3c!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 20010904//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'%3e %3csvg version='1.0' xmlns='http://www.w3.org/2000/svg' width='360.000000pt' height='360.000000pt' viewBox='0 0 360.000000 360.000000' preserveAspectRatio='xMidYMid meet'%3e%3cg transform='translate(0.000000%2c360.000000) scale(0.100000%2c-0.100000)' fill='darkred' stroke='none'%3e%3cpath d='M822 3218 c10 -15 32 -46 48 -70 17 -24 48 -68 69 -98 21 -30 91 -131 157 -225 66 -93 147 -210 180 -260 34 -49 124 -180 202 -290 78 -110 183 -258 233 -328 49 -71 92 -134 95 -141 3 -7 -33 -64 -78 -127 -75 -103 -209 -293 -461 -657 -79 -115 -112 -161 -157 -226 -8 -12 -59 -84 -112 -161 -54 -77 -116 -165 -138 -195 -67 -93 -65 -93 42 -15 57 41 171 124 253 184 83 59 202 146 266 192 64 46 185 134 269 194 84 61 214 155 289 210 75 56 213 155 306 221 304 215 470 335 489 354 10 10 15 23 11 29 -3 7 -41 36 -83 66 -42 30 -160 115 -262 190 -102 74 -228 165 -280 202 -52 37 -169 121 -260 187 -204 148 -537 388 -730 526 -80 57 -179 129 -220 160 -41 31 -91 67 -110 80 l-35 25 17 -27z'/%3e%3c/g%3e%3c/svg%3e"); */
+}
+
+.carousel-control-prev-icon {
+    height: 100px;
+    width: 100px;
+    /* background-image: url("data:image/svg+xml,%3c%3fxml version='1.0' standalone='no'%3f%3e %3c!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 20010904//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'%3e %3csvg version='1.0' xmlns='http://www.w3.org/2000/svg' width='480.000000pt' height='480.000000pt' viewBox='0 0 480.000000 480.000000' preserveAspectRatio='xMidYMid meet'%3e%3cg transform='translate(0.000000%2c480.000000) scale(0.100000%2c-0.100000)' fill='red' stroke='none'%3e%3cpath d='M3550 4200 c-96 -71 -404 -294 -685 -496 -1925 -1389 -1787 -1287 -1779 -1309 8 -20 117 -101 494 -370 184 -131 578 -415 875 -630 1054 -764 1249 -904 1254 -900 2 3 -22 43 -55 90 -32 46 -232 333 -444 636 -212 304 -471 674 -577 823 -106 149 -204 292 -217 317 l-26 46 88 129 c49 71 142 203 207 294 65 91 280 398 477 683 197 285 387 557 421 605 69 96 149 212 145 211 -2 0 -82 -59 -178 -129z'/%3e%3c/g%3e%3c/svg%3e"); */
+}
+
 
 .profile h3 {
     font-weight: bold;
