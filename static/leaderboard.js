@@ -42,7 +42,7 @@ async function getLeaderboard() {
 async function getBadPlayers() {
     let response;
 
-    fetch("badPlayers.txt")
+    fetch("static/badPlayers.txt")
     .then((res) => res.text())
     .then((text) => {
         console.log(text)
