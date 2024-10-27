@@ -23,13 +23,14 @@ async function getLeaderboard() {
             spreadsheetId: SPREADSHEET_ID,
             majorDimension: 'COLUMNS',
             range: 'Ladder!B2:B',
-        }).result.values;
+        });
     } catch (err) {
         document.getElementById('leaderboard').innerHTML = err.message;
         return;
     }
 
     console.log("leaderboard", leaderboard)
+    console.log(leaderboard.result.values)
 
     displayLeaderboard()
 }
