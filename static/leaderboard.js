@@ -48,7 +48,7 @@ async function getBadPlayers() {
     try {
         response = await gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
-            majorDimension: COLUMNS,
+            majorDimension: 'COLUMNS',
             range: 'Ladder!Y2:Y',
         });
     } catch (err) {
