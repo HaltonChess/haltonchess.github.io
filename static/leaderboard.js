@@ -29,8 +29,8 @@ async function getLeaderboard() {
         return;
     }
 
+    leaderboard = leaderboard.result.values[0]
     console.log("leaderboard", leaderboard)
-    console.log(leaderboard.result.values)
 
     displayLeaderboard()
 }
@@ -43,12 +43,13 @@ async function getBadPlayers() {
             spreadsheetId: SPREADSHEET_ID,
             majorDimension: 'COLUMNS',
             range: 'Ladder!Y2:Y',
-        }).result.values;
+        });
     } catch (err) {
         console.log(err.message);
         return;
     }
 
+    badPlayers = badPlayers.result.values[0]
     console.log("bad players:", badPlayers)
 }
 
