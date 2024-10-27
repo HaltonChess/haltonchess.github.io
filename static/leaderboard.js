@@ -23,13 +23,14 @@ async function getLeaderboard() {
             spreadsheetId: SPREADSHEET_ID,
             majorDimension: 'COLUMNS',
             range: 'Ladder!B2:B',
-        }).results.values;
+        });
     } catch (err) {
         document.getElementById('leaderboard').innerHTML = err.message;
         return;
     }
 
     console.log("leaderboard", leaderboard)
+    console.log(leaderboard.results.values)
 
     displayLeaderboard()
 }
@@ -41,13 +42,14 @@ async function getBadPlayers() {
             spreadsheetId: SPREADSHEET_ID,
             majorDimension: 'COLUMNS',
             range: 'Ladder!Y2:Y',
-        }).results.values;
+        });
     } catch (err) {
         console.log(err.message);
         return;
     }
 
-    console.log(badPlayers)
+    console.log("bad players:", badPlayers)
+    console.log(badPlayers.results.values)
 }
 
 
