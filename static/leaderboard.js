@@ -37,7 +37,6 @@ async function getLeaderboard() {
 
 
 async function getBadPlayers() {
-
     try {
         badPlayers = await gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
@@ -54,6 +53,7 @@ async function getBadPlayers() {
 }
 
 
+// update bad players on GS
 async function writeBadPlayers() {
     console.log(badPlayers)
     
@@ -63,7 +63,7 @@ async function writeBadPlayers() {
             range: 'Y2',
             majorDimension: 'COLUMNS',
             valueInputOption: "USER_ENTERED",
-            resource: { "values": badPlayers },
+            resource: { "values": [badPlayers] },
         }).then((response) => {
             const result = response.result;
             console.log(`updated`);
@@ -74,6 +74,8 @@ async function writeBadPlayers() {
     }
 }
 
+
+// show leaderboard
 function displayLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
 
@@ -93,7 +95,7 @@ function updateLeaderboard() {
             range: 'B2',
             majorDimension: 'COLUMNS',
             valueInputOption: "USER_ENTERED",
-            resource: { "values": leaderboard },
+            resource: { "values": [leaderboard] },
         }).then((response) => {
             const result = response.result;
             console.log(`updated`);
