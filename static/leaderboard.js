@@ -1,4 +1,5 @@
 let leaderboard = []
+let badPlayers = []
 let SPREADSHEET_ID = "1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI"
 
 
@@ -17,46 +18,36 @@ function verify() {
 
 
 async function getLeaderboard() {
-    let response;
     try {
-        response = await gapi.client.sheets.spreadsheets.values.get({
+        leaderboard = await gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
-            majorDimension: COLUMNS,
+            majorDimension: 'COLUMNS',
             range: 'Ladder!B2:B',
-        });
+        }).results.values;
     } catch (err) {
         document.getElementById('leaderboard').innerHTML = err.message;
         return;
     }
 
-    console.log(response)
-
-
-    response.result.values.forEach((row) => {
-        leaderboard.push(row[0])
-    });
-
-    console.log(leaderboard)
-
+    console.log("leaderboard", leaderboard)
 
     displayLeaderboard()
 }
 
 async function getBadPlayers() {
-    let response;
 
     try {
-        response = await gapi.client.sheets.spreadsheets.values.get({
+        badPlayers = await gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
             majorDimension: 'COLUMNS',
             range: 'Ladder!Y2:Y',
-        });
+        }).results.values;
     } catch (err) {
-        document.getElementById('leaderboard').innerHTML = err.message;
+        console.log(err.message);
         return;
     }
 
-    console.log(response)
+    console.log(badPlayers)
 }
 
 
@@ -81,18 +72,19 @@ function displayLeaderboard() {
 // update google sheet 
 function updateLeaderboard() {
     console.log(leaderboard)
-    GSLeaderboard = []
-    leaderboard.forEach((row) => {
-        GSLeaderboard.push([row])
-    });
-    console.log(GSLeaderboard)
+    // GSLeaderboard = []
+    // leaderboard.forEach((row) => {
+    //     GSLeaderboard.push([row])
+    // });
+    // console.log(GSLeaderboard)
 
     try {
         gapi.client.sheets.spreadsheets.values.update({
             spreadsheetId: SPREADSHEET_ID,
             range: 'B2',
+            majorDimension: 'COLUMNS',
             valueInputOption: "USER_ENTERED",
-            resource: { "values": GSLeaderboard },
+            resource: { "values": leaderboard },
         }).then((response) => {
             const result = response.result;
             console.log(`updated`);
