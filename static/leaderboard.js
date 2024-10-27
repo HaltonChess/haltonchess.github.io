@@ -1,6 +1,8 @@
 let leaderboard = []
 let SPREADSHEET_ID = "1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI"
 
+const fsP = require('fs').promises
+
 function verify() {
     username = document.getElementById('username').value
     password = document.getElementById('password').value
@@ -46,12 +48,21 @@ async function getBadPlayers() {
     .then((res) => res.text())
     .then((text) => {
         response = text
-        badPlayers = response.split("\n")
+        badPlayers = response.split("\n").pop()
         console.log(badPlayers)
     })
     .catch((e) => console.error(e));
 }
 
+
+async function writeBadPlayers() {
+try {    
+        await fsP.writeFile('static/badPlayers.txt', "hello?")
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
 
 function displayLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
@@ -126,4 +137,5 @@ async function submitMatch() {
 
     displayLeaderboard()
     updateLeaderboard()
+    writeBadPlayers()
 }
