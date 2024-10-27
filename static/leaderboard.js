@@ -1,7 +1,6 @@
 let leaderboard = []
 let SPREADSHEET_ID = "1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI"
 
-const fsP = require('fs').promises
 
 function verify() {
     username = document.getElementById('username').value
@@ -20,15 +19,17 @@ function verify() {
 async function getLeaderboard() {
     let response;
     try {
-        // Fetch first 10 files
         response = await gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
+            majorDimension: COLUMNS,
             range: 'Ladder!B2:B',
         });
     } catch (err) {
         document.getElementById('leaderboard').innerHTML = err.message;
         return;
     }
+
+    console.log(response)
 
 
     response.result.values.forEach((row) => {
@@ -44,19 +45,23 @@ async function getLeaderboard() {
 async function getBadPlayers() {
     let response;
 
-    fetch("static/badPlayers.txt")
-    .then((res) => res.text())
-    .then((text) => {
-        response = text
-        badPlayers = response.split("\n").pop()
-        console.log(badPlayers)
-    })
-    .catch((e) => console.error(e));
+    try {
+        response = await gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            majorDimension: COLUMNS,
+            range: 'Ladder!Y2:Y',
+        });
+    } catch (err) {
+        document.getElementById('leaderboard').innerHTML = err.message;
+        return;
+    }
+
+    console.log(response)
 }
 
 
 async function writeBadPlayers() {
-try {    
+    try {
         await fsP.writeFile('static/badPlayers.txt', "hello?")
     }
     catch (error) {
