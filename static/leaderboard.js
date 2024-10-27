@@ -154,16 +154,72 @@ async function submitMatch() {
 
     // remove loser from players list
     if (badPlayers.includes(loser)){
-        badPlayers.splice(badPlayers.indexOf(loser), 1);
-        print(loser, "removed from 'badPlayers' list")
+        badPlayers[badPlayers.indexOf(loser)] = "";
+        console.log(loser, "removed from 'badPlayers' list");
     }
 
     // remove winner too
     if (badPlayers.includes(winner)){
-        badPlayers.splice(badPlayers.indexOf(winner), 1);
-        print(winner, "removed from 'badPlayers' list")
+        badPlayers[badPlayers.indexOf(winner)] = "";
+        console.log(winner, "removed from 'badPlayers' list");
     }
 
 
     writeBadPlayers()
+}
+
+
+function autoDeranker(){
+    goodPlayers = []
+
+    // for every player
+    for playerIndex in range(len(leaderboard)-1, -1, -1):
+
+        # insert an "empty" slot in front of every bad player
+        if leaderboard[playerIndex][0] in badPlayers:
+            leaderboard.insert(playerIndex, "empty")
+        
+        # or else, add the player to the good player list
+        else:
+            goodPlayers.append(leaderboard[playerIndex][0])
+    
+
+    # sort good players from top to bottom
+    goodPlayers.reverse()
+
+    # for every good player
+    for goodPlayer in goodPlayers:
+        playerIndex = leaderboard.index([goodPlayer])
+        
+        # find the highest empty slot
+        newPosition = leaderboard.index("empty")
+
+        # if that slot is higher than the player's current position, move them there
+        if newPosition < playerIndex:
+            del leaderboard[playerIndex]
+            leaderboard[newPosition] = [goodPlayer]
+        
+
+    # remove the extra null values
+    error = False
+    while error == False:
+        try:
+            del leaderboard[leaderboard.index("empty")]
+        
+        except:
+            error = True
+
+
+    print(leaderboard)
+    googleSheets.write(leaderboard)
+
+
+    # reset the players.txt file
+    playerFile = open("badPlayers.txt", "w")
+    for player in leaderboard:
+        playerFile.write(player[0]+"\n")
+        googleSheets.addConditionalFormatting(player[0], "red")
+    playerFile.close()
+
+    print("unchallenged players moved down. all player statuses reset.")
 }
