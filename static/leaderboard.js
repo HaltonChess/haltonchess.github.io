@@ -56,16 +56,20 @@ async function getBadPlayers() {
 // update bad players on GS
 async function writeBadPlayers() {
     console.log(badPlayers)
-    
+
+    GSBadPlayers = []
+    badPlayers.forEach((row) => {
+        GSBadPlayers.push([row])
+    });
+    console.log(GSBadPlayers)
+
     try {
         gapi.client.sheets.spreadsheets.values.update({
             spreadsheetId: SPREADSHEET_ID,
             range: 'Y2',
-            majorDimension: 'COLUMNS',
             valueInputOption: "USER_ENTERED",
-            resource: { "values": [badPlayers] },
+            resource: { "values": GSBadPlayers },
         }).then((response) => {
-            const result = response.result;
             console.log(`updated`);
         });
     } catch (err) {
@@ -88,16 +92,19 @@ function displayLeaderboard() {
 // update google sheet 
 function updateLeaderboard() {
     console.log(leaderboard)
+    GSLeaderboard = []
+    leaderboard.forEach((row) => {
+        GSLeaderboard.push([row])
+    });
+    console.log(GSLeaderboard)
 
     try {
         gapi.client.sheets.spreadsheets.values.update({
             spreadsheetId: SPREADSHEET_ID,
             range: 'B2',
-            majorDimension: 'COLUMNS',
             valueInputOption: "USER_ENTERED",
-            resource: { "values": [leaderboard] },
+            resource: { "values": GSLeaderboard },
         }).then((response) => {
-            const result = response.result;
             console.log(`updated`);
         });
     } catch (err) {
@@ -105,7 +112,6 @@ function updateLeaderboard() {
         return;
     }
 }
-
 
 
 
