@@ -121,8 +121,6 @@ async function submitMatch() {
     loser = document.getElementById('loser').value
 
     winnerIndex = leaderboard.indexOf(winner)
-    console.log(winner)
-    console.log(leaderboard.indexOf(winner))
     loserIndex = leaderboard.indexOf(loser)
 
     if (winnerIndex == -1 || loserIndex == -1) {
@@ -149,7 +147,23 @@ async function submitMatch() {
         }
     }
 
+
     displayLeaderboard()
     updateLeaderboard()
+
+
+    // remove loser from players list
+    if (badPlayers.includes(loser)){
+        badPlayers.splice(badPlayers.indexOf(loser), 1);
+        print(loser, "removed from 'badPlayers' list")
+    }
+
+    // remove winner too
+    if (badPlayers.includes(winner)){
+        badPlayers.splice(badPlayers.indexOf(winner), 1);
+        print(winner, "removed from 'badPlayers' list")
+    }
+
+
     writeBadPlayers()
 }
