@@ -200,7 +200,6 @@ function derank() {
             leaderboard.splice(playerIndex, 1)
             leaderboard[newPosition] = goodPlayers[i]
         }
-        
     }
 
 
@@ -215,8 +214,8 @@ function derank() {
         leaderboard.splice(leaderboard.indexOf("empty"), 1)
     }
 
-    
-    print(leaderboard)
+
+    console.log(leaderboard)
     displayLeaderboard()
     updateLeaderboard()
 
@@ -224,5 +223,5 @@ function derank() {
     badPlayers = leaderboard.slice();
     writeBadPlayers()
 
-    print("unchallenged players moved down. all player statuses reset.")
+    console.log("unchallenged players moved down. all player statuses reset.")
 }
