@@ -199,7 +199,7 @@ function derank() {
         if (newPosition < playerIndex){
             leaderboard.splice(playerIndex, 1)
         }
-        leaderboard[newPosition] = [goodPlayer]
+        leaderboard[newPosition] = goodPlayers[i]
     }
 
 
