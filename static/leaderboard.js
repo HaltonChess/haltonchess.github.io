@@ -153,73 +153,74 @@ async function submitMatch() {
 
 
     // remove loser from players list
-    if (badPlayers.includes(loser)){
+    if (badPlayers.includes(loser)) {
         badPlayers[badPlayers.indexOf(loser)] = "";
         console.log(loser, "removed from 'badPlayers' list");
     }
 
     // remove winner too
-    if (badPlayers.includes(winner)){
+    if (badPlayers.includes(winner)) {
         badPlayers[badPlayers.indexOf(winner)] = "";
         console.log(winner, "removed from 'badPlayers' list");
     }
-
 
     writeBadPlayers()
 }
 
 
-function autoDeranker(){
+function autoDeranker() {
     goodPlayers = []
 
     // for every player
-    for playerIndex in range(len(leaderboard)-1, -1, -1):
+    for (i = leaderboard.length - 1; i > -1; i--) {
 
-        # insert an "empty" slot in front of every bad player
-        if leaderboard[playerIndex][0] in badPlayers:
-            leaderboard.insert(playerIndex, "empty")
-        
-        # or else, add the player to the good player list
-        else:
-            goodPlayers.append(leaderboard[playerIndex][0])
-    
+        // insert an "empty" slot in front of every bad player
+        if (badPlayers.includes(leaderboard[i])) {
+            leaderboard.splice(i, 0, "empty")
+        }
 
-    # sort good players from top to bottom
+        // or else, add the player to the good player list
+        else {
+            goodPlayers.push(leaderboard[i])
+        }
+    }
+
+    // sort good players from top to bottom
     goodPlayers.reverse()
 
-    # for every good player
-    for goodPlayer in goodPlayers:
-        playerIndex = leaderboard.index([goodPlayer])
-        
-        # find the highest empty slot
-        newPosition = leaderboard.index("empty")
+    // for every good player
+    for (i = 0; i < goodPlayers.length; i++) {
+        playerIndex = leaderboard.indexOf(goodPlayers[i])
 
-        # if that slot is higher than the player's current position, move them there
-        if newPosition < playerIndex:
-            del leaderboard[playerIndex]
-            leaderboard[newPosition] = [goodPlayer]
-        
+        // find the highest empty slot
+        newPosition = leaderboard.indexOf("empty")
 
-    # remove the extra null values
+        // if that slot is higher than the player's current position, move them there
+        if (newPosition < playerIndex){
+            leaderboard.splice(playerIndex, 1)
+        }
+        leaderboard[newPosition] = [goodPlayer]
+    }
+
+
+    // remove the extra null values
     error = False
-    while error == False:
-        try:
-            del leaderboard[leaderboard.index("empty")]
-        
-        except:
-            error = True
+    while (error == False) {
+        try {
+            leaderboard.splice(leaderboard.index("empty"), 1)
+        }
 
+        catch{
+            error = True
+        }
+    }
 
     print(leaderboard)
-    googleSheets.write(leaderboard)
+    displayLeaderboard()
+    updateLeaderboard()
 
-
-    # reset the players.txt file
-    playerFile = open("badPlayers.txt", "w")
-    for player in leaderboard:
-        playerFile.write(player[0]+"\n")
-        googleSheets.addConditionalFormatting(player[0], "red")
-    playerFile.close()
+    // reset the players.txt file
+    writeBadPlayers()
 
     print("unchallenged players moved down. all player statuses reset.")
 }
