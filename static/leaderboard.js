@@ -205,14 +205,14 @@ function derank() {
 
 
     // remove the extra null values
-    error = False
-    while (error == False) {
+    error = false
+    while (error == false) {
         try {
             leaderboard.splice(leaderboard.index("empty"), 1)
         }
 
         catch{
-            error = True
+            error = true
         }
     }
 
