@@ -134,7 +134,7 @@ async function submitMatch() {
     }
 
     else {
-        if (loserIndex > winnerIndex && loserIndex != len(leaderboard) - 1) {
+        if (loserIndex > winnerIndex && loserIndex != leaderboard.length - 1) {
             leaderboard.splice(loserIndex, 1)
             leaderboard.splice(loserIndex + 1, 0, loser)
             alert(`${loser} was too cocky of their skills. ${winner} destroyed them. ${loser} moved down one.`)
@@ -168,7 +168,7 @@ async function submitMatch() {
 }
 
 
-function autoDeranker() {
+function derank() {
     goodPlayers = []
 
     // for every player
