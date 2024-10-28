@@ -198,8 +198,9 @@ function derank() {
         // if that slot is higher than the player's current position, move them there
         if (newPosition < playerIndex){
             leaderboard.splice(playerIndex, 1)
+            leaderboard[newPosition] = goodPlayers[i]
         }
-        leaderboard[newPosition] = goodPlayers[i]
+        
     }
 
 
