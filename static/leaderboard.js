@@ -221,6 +221,7 @@ function derank() {
     updateLeaderboard()
 
     // reset the players.txt file
+    badPlayers = leaderboard.slice();
     writeBadPlayers()
 
     print("unchallenged players moved down. all player statuses reset.")
