@@ -204,18 +204,18 @@ function derank() {
     }
 
 
-    // remove the extra null values
-    error = false
-    while (error == false) {
-        try {
-            leaderboard.splice(leaderboard.index("empty"), 1)
+    // remove the extra "empty" values
+    while (true) {
+        index = leaderboard.indexOf("empty")
+
+        if (index == -1){
+            break;
         }
 
-        catch{
-            error = true
-        }
+        leaderboard.splice(leaderboard.indexOf("empty"), 1)
     }
 
+    
     print(leaderboard)
     displayLeaderboard()
     updateLeaderboard()
