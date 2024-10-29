@@ -189,7 +189,7 @@ function derank() {
     goodPlayers.reverse()
 
     console.log("LB with empty added:", leaderboard)
-    console.log("good players:", goodPlyaers)
+    console.log("good players:", goodPlayers)
 
     // for every good player
     for (i = 0; i < goodPlayers.length; i++) {
