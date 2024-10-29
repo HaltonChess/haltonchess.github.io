@@ -225,7 +225,7 @@ function derank() {
     
     writeGSLeaderboard()
 
-    // reset the players.txt file
+    // reset the badPlayers list
     badPlayers = leaderboard.slice();
     writeGSBadPlayers()
 
