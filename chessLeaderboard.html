@@ -89,8 +89,9 @@
         <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
       </form>
 
-      <button type='button' class="btn btn-primary mt-4" onclick="derank()"> End Competition Period </button>
-      <p><i>this will move non-challenge players down</i></p>
+      <button type='button' class="btn btn-primary mt-4 tooltip" onclick="derank()"> End Competition Period 
+      </button>
+      <p>this will move players who have not played a challenge game 1 down</p>
 
     </div>
 
@@ -133,7 +134,6 @@
     let gisInited = false;
 
     document.getElementById('authorize_button').style.visibility = 'hidden';
-    document.getElementById('signout_button').style.display = 'hidden';
 
 
     /**
