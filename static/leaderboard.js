@@ -185,11 +185,15 @@ function derank() {
         }
     }
 
+
+    console.log("good players:", goodPlayers)
+    
     // sort good players from top to bottom
-    goodPlayers.reverse()
+    goodPlayers = goodPlayers.reverse()
 
     console.log("LB with empty added:", leaderboard)
-    console.log("good players:", goodPlayers)
+    console.log("good players reversed:", goodPlayers)
+
 
     // for every good player
     for (i = 0; i < goodPlayers.length; i++) {
