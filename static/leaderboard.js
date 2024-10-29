@@ -188,6 +188,9 @@ function derank() {
     // sort good players from top to bottom
     goodPlayers.reverse()
 
+    console.log("LB with empty added:", leaderboard)
+    console.log("good players:", goodPlyaers)
+
     // for every good player
     for (i = 0; i < goodPlayers.length; i++) {
         playerIndex = leaderboard.indexOf(goodPlayers[i])
@@ -215,7 +218,7 @@ function derank() {
     }
 
 
-    console.log(leaderboard)
+    console.log("new LB:", leaderboard)
     displayLeaderboard()
     updateLeaderboard()
 
