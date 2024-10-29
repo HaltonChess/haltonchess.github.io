@@ -54,7 +54,7 @@ async function getBadPlayers() {
 
 
 // update bad players on GS
-async function writeBadPlayers() {
+async function writeGSBadPlayers() {
     console.log(badPlayers)
 
     GSBadPlayers = []
@@ -90,7 +90,7 @@ function displayLeaderboard() {
 
 
 // update google sheet 
-function updateLeaderboard() {
+function writeGSLeaderboard() {
     console.log(leaderboard)
     GSLeaderboard = []
     leaderboard.forEach((row) => {
@@ -148,9 +148,6 @@ async function submitMatch() {
     }
 
 
-    displayLeaderboard()
-    updateLeaderboard()
-
 
     // remove loser from players list
     if (badPlayers.includes(loser)) {
@@ -164,7 +161,9 @@ async function submitMatch() {
         console.log(winner, "removed from 'badPlayers' list");
     }
 
-    writeBadPlayers()
+    writeGSBadPlayers()
+    displayLeaderboard()
+    writeGSLeaderboard()
 }
 
 
@@ -223,12 +222,14 @@ function derank() {
 
 
     console.log("new LB:", leaderboard)
-    displayLeaderboard()
-    updateLeaderboard()
+    
+    writeGSLeaderboard()
 
     // reset the players.txt file
     badPlayers = leaderboard.slice();
-    writeBadPlayers()
+    writeGSBadPlayers()
+
+    displayLeaderboard()
 
     console.log("unchallenged players moved down. all player statuses reset.")
 }

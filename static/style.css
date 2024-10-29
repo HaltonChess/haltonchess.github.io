@@ -233,7 +233,7 @@ image {
     color: green;
 }
 
-.bad {
+#leaderboard .bad {
     color: red;
 }
 
