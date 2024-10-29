@@ -13,6 +13,7 @@
   <script src="static/leaderboard.js"></script>
   <link href="static/bootstrapStyling.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <link href="static/style.css" rel="stylesheet">
@@ -54,6 +55,10 @@
       </nav>
     </header>
 
+    <button class="btn btn-primary mt-4 " onclick="derank()"> End Competition Period
+    </button>
+
+
 
     <div class="mt-4 mb-1 text-black rounded">
       <h1 class="title">Chess Leaderboard Management</h1>
@@ -61,14 +66,15 @@
 
     <br>
 
-    <button id="authorize_button" class="btn btn-primary mt-4" onclick="handleAuthClick()" style="display: block; margin: auto">Sign In</button>
+    <button id="authorize_button" class="btn btn-primary mt-4" onclick="handleAuthClick()"
+      style="display: block; margin: auto">Sign In</button>
 
 
     <div id="adminAccess">
-      
+
       <ol id="leaderboard"></ol>
 
-      <form id="managementForm" >
+      <form id="managementForm">
         <div class="form-group">
           <label for="challenger">Challenger</label>
           <select name="challenger" id="challenger">
@@ -89,16 +95,17 @@
         <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
       </form>
 
-      <button type='button' class="btn btn-primary mt-4 tooltip" onclick="derank()"> End Competition Period 
-      </button>
-      <p>this will move players who have not played a challenge game 1 down</p>
-
+      <button type="button" class="btn btn-primary mt-3" onclick="derank()" data-bs-toggle="tooltip" data-bs-placement="right"
+      title="this will move players who have not played a challenge game 1 down">
+      End Competition Period
+    </button>
+    
     </div>
 
 
   </div>
 
-<div class="container-fluid">
+  <div class="container-fluid">
 
     <br>
 
@@ -176,7 +183,7 @@
         document.getElementById('authorize_button').style.visibility = 'hidden';
         document.getElementById('adminAccess').style.display = 'block';
         getBadPlayers()
-        
+
       };
 
       if (gapi.client.getToken() === null) {
@@ -201,7 +208,12 @@
 
   </script>
 
-
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>
   <script async defer src="https://apis.google.com/js/api.js"
     onload="gapi.load('client', initializeGapiClient)"></script>
   <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
