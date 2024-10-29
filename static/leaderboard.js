@@ -50,6 +50,7 @@ async function getBadPlayers() {
 
     badPlayers = badPlayers.result.values[0]
     console.log("bad players:", badPlayers)
+    getLeaderboard()
 }
 
 
