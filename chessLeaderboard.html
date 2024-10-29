@@ -173,7 +173,6 @@
         if (resp.error !== undefined) {
           throw (resp);
         }
-        document.getElementById('signout_button').style.visibility = 'visible';
         document.getElementById('authorize_button').style.visibility = 'hidden';
         document.getElementById('adminAccess').style.display = 'block';
         getBadPlayers()
@@ -197,7 +196,6 @@
         gapi.client.setToken('');
         document.getElementById('content').innerText = '';
         document.getElementById('authorize_button').innerText = 'Authorize';
-        document.getElementById('signout_button').style.visibility = 'hidden';
       }
     }
 
