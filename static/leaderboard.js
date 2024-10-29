@@ -33,6 +33,26 @@ async function getLeaderboard() {
     console.log("leaderboard", leaderboard)
 
     displayLeaderboard()
+    updateOptions()
+}
+
+function updateOptions() {
+    document.getElementById('challenger').innerHTML = ""
+    document.getElementById('loser').innerHTML = ""
+    document.getElementById('winner').innerHTML = ""
+
+    leaderboard.forEach((row) => {
+        document.getElementById('loser').innerHTML += `<option value="${row}">${row}</option>`;
+        document.getElementById('challenger').innerHTML += `<option value="${row}">${row}</option>`;
+        document.getElementById('winner').innerHTML += `<option value="${row}">${row}</option>`;
+    });
+}
+
+
+function fillLoser(){
+    if (document.getElementById('challenger').value != document.getElementById('loser').value) {
+        document.getElementById('winner').value = document.getElementById('challenger').value
+    }
 }
 
 

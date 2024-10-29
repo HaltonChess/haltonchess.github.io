@@ -75,17 +75,26 @@
       <form id="managementForm" >
         <div class="form-group">
           <label for="challenger">Challenger</label>
-          <input class="form-control" id="challenger" placeholder="name">
+          <select name="challenger" id="challenger">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+          </select>
         </div>
         <br>
         <div class="form-group">
           <label for="loser">Defeated</label>
-          <input class="form-control" id="loser" placeholder="name">
+          <select oninput="fillLoser()" name="loser" id="loser">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+          </select>
         </div>
         <br>
         <div class="form-group">
           <label for="winner">Victorious</label>
-          <input class="form-control" id="winner" placeholder="name">
+          <select name="winner" id="winner">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+          </select>
         </div>
         <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
       </form>
