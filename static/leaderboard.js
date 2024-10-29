@@ -84,7 +84,7 @@ function displayLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
 
     leaderboard.forEach((row) => {
-        document.getElementById('leaderboard').innerHTML += `<li>${row}</li>`;
+        document.getElementById('leaderboard').innerHTML += `<li class="${(badPlayers.includes(row)) && 'bad'}">${row}</li>`;
     });
 }
 

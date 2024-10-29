@@ -229,6 +229,14 @@ image {
     margin:10px;
 }
 
+#leaderboard li {
+    color: green;
+}
+
+.bad {
+    color: red;
+}
+
 #leaderboardLogin {
     margin: auto;
     width: 40%;
