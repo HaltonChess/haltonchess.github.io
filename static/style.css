@@ -95,6 +95,7 @@ table {
 
 #affiliates div .card {
     background-color: rgb(60, 60, 60);
+    cursor: pointer;
 }
 
 #affiliates div .card:hover{
@@ -229,11 +230,43 @@ image {
     margin:10px;
 }
 
-#leaderboard li {
+#leaderboard {
+    margin: auto;
+    font-size: 20px;
+}
+
+#leaderboard tr td:nth-child(1){
+    padding-right: 10px;
+    border-right: 2px solid #c11214;
+}
+
+#compMatchInfo {
+    color: #620f11;
+    cursor: pointer;
+}
+
+#endCompPeriod {
+    width: 230px;
+}
+
+#endCompPeriodInfo {
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+#leaderboard tr td{
+    padding-left: 10px;
+    text-align: left;
+}
+
+.good {
     color: green;
 }
 
-#leaderboard .bad {
+.bad {
     color: red;
 }
 
@@ -244,6 +277,22 @@ image {
 
 #adminAccess {
     display: none;
+}
+
+#managementForm {
+    background-color: grey;
+    padding: 20px;
+    border-radius: 20px;
+    margin: auto;
+    width: 375px;
+    text-align: center;
+}
+
+#managementForm h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color:#b61113;
+    margin-bottom: 20px;
 }
 
 #manual {

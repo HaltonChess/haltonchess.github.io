@@ -65,38 +65,93 @@
       style="display: block; margin: auto">Sign In</button>
 
 
+
+
     <div id="adminAccess">
 
-      <ol id="leaderboard"></ol>
+      <table id="leaderboard"></table>
+
+      <br><br>
 
       <form id="managementForm">
+        <h3>Submit Competition Match <span id="compMatchInfo" data-toggle="modal" data-target="#instructionsModal">
+            ⓘ</span></h3>
         <div class="form-group">
-          <label for="challenger">Challenger</label>
+          <label for="challenger">Challenger</label><br>
           <select name="challenger" id="challenger">
           </select>
         </div>
         <br>
         <div class="form-group">
-          <label for="loser">Defeated</label>
+          <label for="loser">Defeated</label><br>
           <select oninput="fillLoser()" name="loser" id="loser">
           </select>
         </div>
         <br>
         <div class="form-group">
-          <label for="winner">Victorious</label>
+          <label for="winner">Victorious</label><br>
           <select name="winner" id="winner">
           </select>
         </div>
         <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
       </form>
-
-      <button type="button" class="btn btn-primary mt-3" onclick="derank()" data-bs-toggle="tooltip" data-bs-placement="right"
-      title="this will move players who have not played a challenge game 1 down">
-      End Competition Period
-    </button>
+      <br>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <span id="endCompPeriodInfo" style="color: #2b292a; cursor: default"> ⓘ</span>
+        <button type="button" class="btn btn-primary mt-3" id="endCompPeriod" onclick="derank()">
+          End Competition Period
+        </button>
+        <span id="endCompPeriodInfo" data-toggle="modal" data-target="#endCompModal"> ⓘ</span>
+      </div>
 
     </div>
+    <div class="modal fade" id="instructionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">What's a Competition Match?</h5>
+          </div>
+          <div class="modal-body">
+            A competition match is a chess match played between two players with a <b>15 minute time</b>.
 
+            <br><br><b style="font-size: 18px">Leaderboard Rules</b>
+            <p>A = higher ranked player, B = lower ranked player</p>
+            <ul>
+              <li>If A challenges B and wins, nothing happens</li>
+              <li>If B challenges A and loses, B moves down one</li>
+              <li>If B beats A, B takes A's place while A moves down one</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Got it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="endCompModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">What happens when I end the competition period?</h5>
+        </div>
+        <div class="modal-body">
+          A new competition period starts every 2 weeks. <br><br>
+          Any players that don't play a competition match during a competition period 
+          get moved down by 1.<br><br>
+          As a result, players who <i>did</i> play a competition match may go up
+          in rank.<br><br>
+
+          <span class="bad">Haven't played a competition match yet</span>
+          <span class="good">Have played a competition match</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Got it!</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   </div>
 
