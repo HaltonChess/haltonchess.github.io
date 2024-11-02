@@ -3,20 +3,6 @@ let badPlayers = []
 let SPREADSHEET_ID = "1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI"
 
 
-function verify() {
-    username = document.getElementById('username').value
-    password = document.getElementById('password').value
-
-    if (username == "VidsterBroyo" && password == "bozo") {
-        document.getElementById("leaderboardManagement").style.display = "block"
-        document.getElementById("managementForm").style.display = "block"
-        document.getElementById("googleSheet").style.display = "block"
-    } else {
-        alert("L wrong credentials")
-    }
-}
-
-
 async function getLeaderboard() {
     try {
         leaderboard = await gapi.client.sheets.spreadsheets.values.get({
@@ -104,8 +90,13 @@ async function writeGSBadPlayers() {
 function displayLeaderboard() {
     document.getElementById('leaderboard').innerHTML = ""
 
+    let i = 1;
     leaderboard.forEach((row) => {
-        document.getElementById('leaderboard').innerHTML += `<li class="${(badPlayers.includes(row)) && 'bad'}">${row}</li>`;
+        document.getElementById('leaderboard').innerHTML += `<tr>
+                                                                <td>${i}</td>
+                                                                <td class="${(badPlayers.includes(row)) ? 'bad' : 'good'}">${row}</td>
+                                                            </tr>`;
+        i++;
     });
 }
 
