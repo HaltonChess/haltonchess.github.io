@@ -201,7 +201,7 @@
     let gapiInited = false;
     let gisInited = false;
 
-    document.getElementById('authorize_button').style.visibility = 'hidden';
+    document.getElementById('authorize_button').style.display = 'none';
 
 
     /**
@@ -231,7 +231,7 @@
     // enable buttons
     function maybeEnableButtons() {
       if (gapiInited && gisInited) {
-        document.getElementById('authorize_button').style.visibility = 'visible';
+        document.getElementById('authorize_button').style.display = 'none';
       }
     }
 
@@ -241,7 +241,7 @@
         if (resp.error !== undefined) {
           throw (resp);
         }
-        document.getElementById('authorize_button').style.visibility = 'hidden';
+        document.getElementById('authorize_button').style.display = 'none';
         document.getElementById('adminAccess').style.display = 'block';
         getBadPlayers()
 
