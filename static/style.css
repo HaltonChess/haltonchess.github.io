@@ -34,6 +34,11 @@ nav {
     text-align: center;
 }
 
+#rightSide {
+    display: flex; 
+    width: 49%;
+    place-items: center;
+}
 
 #subtitle{
     text-align: center;
@@ -286,7 +291,6 @@ image {
     margin: auto;
     width: 375px;
     text-align: center;
-    
 }
 
 #managementForm h3 {
