@@ -79,49 +79,56 @@
 
 
 
-    <div id="adminAccess">
+    <div>
       <br><br>
       <div style="display: inline-block; width: 49%">
 
-        <table id="leaderboard"></table>
-        
+        <table id="leaderboard">
+        </table>
 
       </div>
 
       <div style="display: inline-block; width: 49%">
+        <button id="authorize_button" class="btn btn-primary mt-4" onclick="handleAuthClick()"
+          style="display: block; margin: auto;">Sign In</button>
 
-        <form id="managementForm">
-          <h3>Submit Competition Match <span id="compMatchInfo" data-toggle="modal" data-target="#instructionsModal">
-              ⓘ</span></h3>
-          <div class="form-group">
-            <label for="challenger">Challenger</label><br>
-            <select name="challenger" id="challenger">
-            </select>
-          </div>
+        <div id="adminAccess">
+          <form id="managementForm">
+            <h3>Submit Competition Match <span id="compMatchInfo" data-toggle="modal" data-target="#instructionsModal">
+                ⓘ</span></h3>
+            <div class="form-group">
+              <label for="challenger">Challenger</label><br>
+              <select name="challenger" id="challenger">
+              </select>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="loser">Defeated</label><br>
+              <select oninput="fillLoser()" name="loser" id="loser">
+              </select>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="winner">Victorious</label><br>
+              <select name="winner" id="winner">
+              </select>
+            </div>
+            <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
+          </form>
           <br>
-          <div class="form-group">
-            <label for="loser">Defeated</label><br>
-            <select oninput="fillLoser()" name="loser" id="loser">
-            </select>
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <span id="endCompPeriodInfo" style="color: #2b292a; cursor: default"> ⓘ</span>
+            <button type="button" class="btn btn-primary mt-3" id="endCompPeriod" onclick="derank()">
+              End Competition Period
+            </button>
+            <span id="endCompPeriodInfo" data-toggle="modal" data-target="#endCompModal"> ⓘ</span>
           </div>
-          <br>
-          <div class="form-group">
-            <label for="winner">Victorious</label><br>
-            <select name="winner" id="winner">
-            </select>
-          </div>
-          <button type='button' class="btn btn-primary mt-4" onclick="submitMatch()">Submit</button>
-        </form>
-        <br>
-        <div style="display: flex; align-items: center; justify-content: center;">
-          <span id="endCompPeriodInfo" style="color: #2b292a; cursor: default"> ⓘ</span>
-          <button type="button" class="btn btn-primary mt-3" id="endCompPeriod" onclick="derank()">
-            End Competition Period
-          </button>
-          <span id="endCompPeriodInfo" data-toggle="modal" data-target="#endCompModal"> ⓘ</span>
         </div>
 
       </div>
+
+
+
       <div class="modal fade" id="instructionsModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -196,6 +203,46 @@
 
     </footer>
   </div>
+
+
+  <script>
+    const spreadsheetId = '1spa_TvGmq1HN1h5b5ICQ5gdwCMNsM3N9ztesJ8UG4sI';
+    const apiKey = 'AIzaSyA5pJxWqp29cicwZWzhWlVTLA2warQqGAo';
+    const sheetName = 'Ladder';
+    const LBrange = 'B2:B';
+    const BPrange = 'Y2:Y';
+    const majorDimension = 'COLUMNS';
+
+    async function fetchSheetData() {
+      const LBurl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!${LBrange}?majorDimension=${majorDimension}&key=${apiKey}`;
+      const BPurl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!${BPrange}?majorDimension=${majorDimension}&key=${apiKey}`;
+
+      try {
+        let response = await fetch(LBurl);
+        const leaderboard = (await response.json()).values[0];
+        console.log(leaderboard);
+
+        response = await fetch(BPurl);
+        const badPlayers = (await response.json()).values[0];
+        console.log(badPlayers);
+
+        document.getElementById('leaderboard').innerHTML = ""
+
+        let i = 1;
+        leaderboard.forEach((row) => {
+          document.getElementById('leaderboard').innerHTML += `<tr>
+                                                      <td>${i}</td>
+                                                      <td class="${(badPlayers.includes(row)) ? 'bad' : 'good'}">${row}</td>
+                                                  </tr>`;
+          i++;
+        });
+      } catch (error) {
+        console.error('oops i failed:', error);
+      }
+    }
+
+    fetchSheetData();
+  </script>
 
 
   <!-- GSheets API Code -->

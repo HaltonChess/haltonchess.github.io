@@ -32,8 +32,15 @@ nav {
     font-weight: bold;
     color: #b9dede;
     text-align: center;
-    /* width: 100% */
 }
+
+.vertical-center {
+
+    /* transform: translateY(-50%); */
+    
+    
+}
+
 
 #subtitle{
     text-align: center;
@@ -263,11 +270,11 @@ image {
 }
 
 .good {
-    color: green;
+    color: rgb(0, 224, 0);
 }
 
 .bad {
-    color: red;
+    color: rgb(255, 0, 0);
 }
 
 #leaderboardLogin {
@@ -286,6 +293,7 @@ image {
     margin: auto;
     width: 375px;
     text-align: center;
+    
 }
 
 #managementForm h3 {
