@@ -70,6 +70,17 @@ nav {
     display: none;
 }
 
+
+#pairingsTable span {
+    color:#da2326;
+}
+
+#pairingsTable td:first-child {
+  border-right: 2px solid #c11214; 
+  width: 4%;
+}
+
+
 table {
     text-align: center;
 }
@@ -133,7 +144,7 @@ footer{
 }
 
 footer a{
-    color: #f6383b;
+    color: #580001;
 }
 
 .whiteButton {

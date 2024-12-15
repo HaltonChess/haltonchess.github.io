@@ -6,6 +6,8 @@ let schools = ["Abbey Park High School", "Acton District School", "Aldershot Hig
     "Elsie MacGill Secondary School", "Iroquois Ridge High School", "Milton District High School", "T. A. Blakelock High School"
     , "White Oaks Secondary School", "Bishop Reding Catholic Secondary School"]
 let firstPairings = []
+let color = ["#81B64C", "#bde992", "transparent"]
+            // win, tie, lose
 
 
 function showButton(button) {
@@ -272,7 +274,7 @@ function saveLastPairings() {
             playerB = { ...pairings[pairings.length - 1][i][1] }
 
             // tie
-            if (rows[i].children[2].children[0].style.backgroundColor == "rgb(189, 233, 146)") {
+            if (rows[i].children[3].children[0].style.backgroundColor == "rgb(189, 233, 146)") {
                 pairings[pairings.length - 1][i].push(1)
                 playerA.score += 0.5
                 playerB.score += 0.5
@@ -280,7 +282,7 @@ function saveLastPairings() {
             }
 
             // playerA win
-            else if (rows[i].children[2].children[0].style.backgroundColor == "rgb(129, 182, 76)") {
+            else if (rows[i].children[3].children[0].style.backgroundColor == "rgb(129, 182, 76)") {
                 pairings[pairings.length - 1][i].push(0)
                 playerA.score += 1
             }
@@ -537,13 +539,13 @@ function makeNextPairings() {
 
 function handleOutcome(type, playerA, playerB, row) {
 
-    document.getElementById("pairingsTable").children[row].children[2].children[0].style.backgroundColor = "white"
-    document.getElementById("pairingsTable").children[row].children[4].children[0].style.backgroundColor = "white"
+    document.getElementById("pairingsTable").children[row].children[3].children[0].style.backgroundColor = "transparent"
+    document.getElementById("pairingsTable").children[row].children[5].children[0].style.backgroundColor = "transparent"
 
     if (type == "win") {
         // find which column playerA is in based on their chess color
         let column
-        (playerA.color == "white") ? column = 2 : column = 4
+        (playerA.color == "white") ? column = 3 : column = 5
 
         // color said column
         document.getElementById("pairingsTable").children[row].children[column].children[0].style.backgroundColor = "#81B64C"
@@ -552,8 +554,8 @@ function handleOutcome(type, playerA, playerB, row) {
 
     // if it's a tie
     else {
-        document.getElementById("pairingsTable").children[row].children[2].children[0].style.backgroundColor = "#bde992"
-        document.getElementById("pairingsTable").children[row].children[4].children[0].style.backgroundColor = "#bde992"
+        document.getElementById("pairingsTable").children[row].children[3].children[0].style.backgroundColor = "#bde992"
+        document.getElementById("pairingsTable").children[row].children[5].children[0].style.backgroundColor = "#bde992"
     }
 }
 
@@ -588,13 +590,13 @@ function displayPairings(index) {
 
     tableBody = ""
 
-    color = ["#81B64C", "#bde992", "white"]
-
+    
     for (i = 0; i < currentPairings.length; i++) {
 
         // check if the pairing is a real pairing   
         if (isNaN(currentPairings[i][1])) {
             tableBody += `<tr>
+                            <td>${i+1}</td>
                             <td>${currentPairings[i][0].score}</td>
                             <td>${currentPairings[i][0].school}</td>
                             <td><span style="background-color: ${color[currentPairings[i][2]]}">${currentPairings[i][0].name}</span></td>
@@ -609,6 +611,7 @@ function displayPairings(index) {
         // otherwise it is a bye
         else {
             tableBody += `<tr>
+                            <td>${i+1}</td>
                             <td>${currentPairings[i][0].score}</td>
                             <td>${currentPairings[i][0].school}</td>
                             <td><span style="background-color: ${color[currentPairings[i][1]]}">${currentPairings[i][0].name}</span></td>
@@ -680,15 +683,19 @@ function confirmPairings() {
         currentPairings[edits[i]][0].school = currentRow.children[1].children[0].value
         currentPairings[edits[i]][0].name = currentRow.children[2].children[0].value
 
-        // update player 2
-        currentPairings[edits[i]][1].name = currentRow.children[4].children[0].value
-        currentPairings[edits[i]][1].school = currentRow.children[5].children[0].value
-        currentPairings[edits[i]][1].score = parseInt(currentRow.children[6].children[0].value)
+        
+        // update player 2 IF there even is a player 2
+        if (currentPairings[edits[i]][1].name) {
+            currentPairings[edits[i]][1].name = currentRow.children[4].children[0].value
+            currentPairings[edits[i]][1].school = currentRow.children[5].children[0].value
+            currentPairings[edits[i]][1].score = parseInt(currentRow.children[6].children[0].value)
+        }
 
         console.log(currentPairings[edits[i]])
     }
 
 
+    edits = []
 
     // call display pairings again to make the table update
     pairings[pairings.length - 1] = currentPairings
