@@ -1,3 +1,6 @@
+const e = require("express")
+
+
 
 let players = []
 let pairings = []
@@ -6,9 +9,11 @@ let schools = ["Abbey Park High School", "Acton District School", "Aldershot Hig
     "Elsie MacGill Secondary School", "Iroquois Ridge High School", "Milton District High School", "T. A. Blakelock High School"
     , "White Oaks Secondary School", "Bishop Reding Catholic Secondary School"]
 let firstPairings = []
-let color = ["#81B64C", "#bde992", "transparent"]
-            // win, tie, lose
+let color = ["#81B64C", "#bde992", "transparent"] // win, tie, lose
 
+let byes = []  // list of players who have had a bye
+
+let confirmed = false  // keep track of whether or not they confirmed pairings
 
 function showButton(button) {
     if (button == "manual") {
@@ -69,13 +74,7 @@ function addPlayer() {
 
 
 function automatePlayers() {
-    fetch("static/players.json")
-        .then((res) => res.text())
-        .then((text) => {
-            console.log(JSON.parse(text))
-            players = JSON.parse(text)
-        })
-        .catch((e) => console.error(e));
+    players = JSON.parse('[ { "name": "Kai Bar-on", "school": "Craig Kielburger Secondary School", "score": 0 }, { "name": "Agastya Khanna", "school": "Elsie MacGill Secondary School", "score": 0 }, { "name": "Ryan Nizamani", "school": "White Oaks Secondary School", "score": 0 }, { "name": "Barnett Luo", "school": "White Oaks Secondary School", "score": 0 }, { "name": "Zayan Ahmad", "school": "Milton District High School", "score": 0 }, { "name": "Sukruth Rajesh", "school": "Acton District School", "score": 0 }, { "name": "Marawan Al-Gabri", "school": "Abbey Park High School", "score": 0 }, { "name": "Ritvik Patel", "school": "T. A. Blakelock High School", "score": 0 }, { "name": "Aidan Ouellette", "school": "Iroquois Ridge High School", "score": 0 }, { "name": "Muhammad Ali", "school": "Craig Kielburger Secondary School", "score": 0 }, { "name": "Vidu Widyalankara", "school": "Iroquois Ridge High School", "score": 0 }, { "name": "Charlie Jackson", "school": "Elsie MacGill Secondary School", "score": 0 }, { "name": "Ibrahim Khodabocus", "school": "Craig Kielburger Secondary School", "score": 0 }, { "name": "Hisham Mohammed", "school": "Milton District High School", "score": 0 }, { "name": "Luke Hurley", "school": "Milton District High School", "score": 0 }, { "name": "Angad Ghatora", "school": "Elsie MacGill Secondary School", "score": 0 } ]')
 }
 
 
@@ -96,7 +95,7 @@ function removePlayer(playerObject) {
 
     for (i = 0; i < players.length; i++) {
         tableBody += `<tr>
-                        <th scope="row">${i + 1}</th>
+                        <th>${i + 1}</th>
                         <td>${players[i].name}</td>
                         <td>${players[i].school}</td>
                         <td><button onclick="removePlayer({name: '${players[i].name}', school: '${players[i].school}'})">X</button></td>
@@ -104,7 +103,7 @@ function removePlayer(playerObject) {
     }
 
     tableBody += ` <tr id="newPlayer">
-                        <th scope="row"></th>
+                        <th></th>
                         <td><input type="text" id="name" placeholder="Name"></td>
                         <td>
                         <select id="school">
@@ -216,6 +215,7 @@ function createFirstPairings() {
         else if (playersBySchool[0].length == 1) {
             playersBySchool[0][0].color = "white"
 
+            byes.push(playersBySchool[0][0].name)
             currentPairings.push([playersBySchool[0][0], 2])
             playersBySchool[0].shift()
         }
@@ -225,7 +225,10 @@ function createFirstPairings() {
 
     document.getElementById("pairings").style.display = "block"
     pairings.push(currentPairings)
-    displayPairings("new pairings")
+
+    addPairingToMenu()
+    displayPairings(pairings.length - 1)
+
     document.getElementById("addPlayers").style.display = "none"
 }
 
@@ -367,16 +370,46 @@ function makeNextPairings() {
     updateStandings(playersByPoints)
 
 
-    while (playersByPoints.length > 1) {
+    // the code goes through the list making pairs until there are only 2 players left
+    // the code then pairs these 2 players together
+    // the problem happens when these players have alrd played together
+
+    // if this problem is detected, go up the pairings
+    // check if player A has played any of the players before
+    // if they haven't, check that the other pair is also not a repeat
+    // if success, switch the pairs
+
+
+
+
+    // if odd # of players, determine who gets the bye
+    if (playersByPoints.length % 2 != 0) {
+
+        // go through the players, lowest players first
+        for (i = playersByPoints.length - 1; i >= 0; i--) {
+
+            // if a player did not already get a bye, give the bye to them
+            if (!byes.includes(playersByPoints[i].name)) {
+                currentPairings.push([playersByPoints[i], 2])
+                byes.push(playersByPoints[i].name)
+                console.log(`${playersByPoints[i].name} got the bye`)
+                playersByPoints.splice(i, 1)
+                break
+            }
+        }
+    }
+
+
+    while (playersByPoints.length > 2) {
         playerA = playersByPoints[0]
         // [same score & diff school & diff color, same score & diff school, close score +- 0.5 & diff school & diff color, close score & diff school, closest score possible]
         options = [0, 0, 0, 0, 0, 0]
         smallestDiff = 1000
 
-        // console.log("\n----------PLAYERS----------")
-        // for (i = 0; i < playersByPoints.length; i++) {
-        //     console.log(playersByPoints[i])
-        // }
+        console.log("\n----------PLAYERS----------")
+        for (i = 0; i < playersByPoints.length; i++) {
+            console.log(playersByPoints[i])
+        }
 
         for (i = 1; i < playersByPoints.length; i++) {
             playerB = playersByPoints[i]
@@ -512,18 +545,63 @@ function makeNextPairings() {
             playersByPoints.splice(options[5], 1)
         }
 
+        else {
+            console.log("awwww, poor guy can't play anyone :(\nmoving to bottom and praying we find smth")
+            playersByPoints.push(playerA)
+        }
+
+    
         playersByPoints.shift()
-
-        console.log("pair made between " + currentPairings[currentPairings.length - 1][0].name + " and " + currentPairings[currentPairings.length - 1][1].name)
-
-        // am i not supposed to order the players by school here again..?
 
     }
 
 
-    // if there is a bye, add them to the list
-    if (playersByPoints.length == 1) {
-        currentPairings.push([playersByPoints[0], 2])
+    // there are now 2 players left
+    console.log("there are now 2 players left")
+    console.log(playersByPoints[0].name + " and " + playersByPoints[1].name)
+
+    // make the pair 
+    currentPairings.push([playersByPoints[0], playersByPoints[1]])
+
+
+
+    // check if this last pair is unique
+    if (!isRepeat(playersByPoints[0].name, playersByPoints[1].name)) {
+        console.log("phew! last pair successfully made between " + playersByPoints[0].name + " and " + playersByPoints[1].name)
+    }
+
+
+    // if someone has no match that works (repeats "i almost repeated a match...") we should move them to the end of the list
+
+
+    // OKAY, this algo is kinda working? 
+    // but now that i think of it, why do the 2 players we choose to switch with have to be in a pair alrd? can't we just go individually?
+    
+    
+    // if not, we must go back in the pairings and fix it
+    else {
+        console.log("oh fuck me, backed myself into a corner - finding better pair now...")
+
+        newPairing = []
+
+        // reverse for loop through currentPairings
+        for (let i = currentPairings.length - 2; i >= 0; i--) {
+            if (!isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length-1][0].name) && !isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length-1][1].name)){
+                
+                let temp = currentPairings[i][0]
+                currentPairings[i][0] = currentPairings[currentPairings.length-1][1]
+                currentPairings[currentPairings.length-1][1] = temp
+                break
+
+            } else if (!isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length-1][0].name) && !isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length-1][1].name)){
+                
+                let temp = currentPairings[i][0]
+                currentPairings[i][0] = currentPairings[currentPairings.length-1][0]
+                currentPairings[currentPairings.length-1][0] = temp
+                break
+            }
+        }
+
     }
 
 
@@ -531,8 +609,12 @@ function makeNextPairings() {
     // add currentPairings to totalPairings
     pairings.push(currentPairings)
 
+    playersByPoints = [] // clear the players list
+
     // display new pairings
-    displayPairings("new pairings")
+    confirmed = false
+    addPairingToMenu()
+    displayPairings(pairings.length - 1)
 
 }
 
@@ -547,7 +629,7 @@ function handleOutcome(type, playerA, playerB, row) {
         let column
         (playerA.color == "white") ? column = 3 : column = 5
 
-        // color said column
+        // color that column
         document.getElementById("pairingsTable").children[row].children[column].children[0].style.backgroundColor = "#81B64C"
 
     }
@@ -560,47 +642,47 @@ function handleOutcome(type, playerA, playerB, row) {
 }
 
 
+function addPairingToMenu() {
+    document.getElementById("pairingsMenu").innerHTML += `<li class="nav-item">
+                                                            <a class="nav-link active" aria-current="page" onclick="displayPairings(${pairings.length - 1})">Round ${pairings.length}</a>
+                                                        </li>`
+}
+
+
 function displayPairings(index) {
+    // disable the currently active menu button
     activeItem = document.getElementById("pairingsMenu").getElementsByClassName('active')[0]
     if (activeItem) {
         activeItem.classList.remove('active')
     }
 
+    // if pairings are the last ones and are not confirmed, show the manual button
+    (index == pairings.length - 1 && !confirmed) ? showButton("manual") : showButton("nextPairings");
 
-    if (index == "new pairings") {
-        currentPairings = pairings[pairings.length - 1]
-        document.getElementById("pairingsMenu").innerHTML += `<li class="nav-item">
-                                                                <a class="nav-link active" aria-current="page" onclick="displayPairings(${pairings.length - 1})">Round ${pairings.length}</a>
-                                                            </li>`
+    // if pairings are not the last ones, don't show any buttons
+    (index != pairings.length - 1) && showButton("none");
 
-        showButton("manual")
-    } else {
-        currentPairings = pairings[index]
-        document.getElementById("pairingsMenu").children[index].children[0].classList.add('active')
-        console.log(currentPairings)
-
-        // check if a pairing isn't new but is the last pairing - if so, show the manual options
-        if (index == pairings.length - 1) {
-            showButton("manual")
-        } else {
-            showButton("none")
-        }
-    }
+    // set currentPairings to the right pairings
+    currentPairings = pairings[index]
+    document.getElementById("pairingsMenu").children[index].children[0].classList.add('active')
 
 
     tableBody = ""
-
-    
     for (i = 0; i < currentPairings.length; i++) {
 
         // check if the pairing is a real pairing   
         if (isNaN(currentPairings[i][1])) {
             tableBody += `<tr>
-                            <td>${i+1}</td>
+                            <td>${i + 1}</td>
                             <td>${currentPairings[i][0].score}</td>
                             <td>${currentPairings[i][0].school}</td>
                             <td><span style="background-color: ${color[currentPairings[i][2]]}">${currentPairings[i][0].name}</span></td>
-                            <td><button onclick='handleOutcome("win", ${JSON.stringify(currentPairings[i][0])}, ${JSON.stringify(currentPairings[i][1])}, ${i})' class="whiteButton"><</button><button onclick='handleOutcome("draw", ${JSON.stringify(currentPairings[i][0])}, ${JSON.stringify(currentPairings[i][1])}, ${i})'>O</button><button onclick='handleOutcome("win", ${JSON.stringify(currentPairings[i][1])}, ${JSON.stringify(currentPairings[i][0])}, ${i})' class="blackButton">></button></td>
+
+                            <!-- if the pairing is new (or just the last pairing) AND these pairings are confirmed, show the outcome buttons-->
+                            ${(index == pairings.length - 1 && confirmed) ?
+                    `<td><button onclick='handleOutcome("win", ${JSON.stringify(currentPairings[i][0])}, ${JSON.stringify(currentPairings[i][1])}, ${i})' class="whiteButton"><</button><button onclick='handleOutcome("draw", ${JSON.stringify(currentPairings[i][0])}, ${JSON.stringify(currentPairings[i][1])}, ${i})'>O</button><button onclick='handleOutcome("win", ${JSON.stringify(currentPairings[i][1])}, ${JSON.stringify(currentPairings[i][0])}, ${i})' class="blackButton">></button></td>`
+                    : `<td></td>`}
+
                             <td><span style="background-color: ${color[2 - currentPairings[i][2]]}">${currentPairings[i][1].name}</span></td>
                             <td>${currentPairings[i][1].school}</td>
                             <td>${currentPairings[i][1].score}</td>
@@ -611,11 +693,16 @@ function displayPairings(index) {
         // otherwise it is a bye
         else {
             tableBody += `<tr>
-                            <td>${i+1}</td>
+                            <td>${i + 1}</td>
                             <td>${currentPairings[i][0].score}</td>
                             <td>${currentPairings[i][0].school}</td>
                             <td><span style="background-color: ${color[currentPairings[i][1]]}">${currentPairings[i][0].name}</span></td>
-                            <td><button onclick='handleOutcome("bye", ${JSON.stringify(currentPairings[i][0])}, ${JSON.stringify({ "name": "fake", "school": "fake" })}, ${i})' class="whiteButton"><</button></td>
+                            
+                            <!-- if the pairing is new (or just the last pairing) AND these pairings are confirmed, show the outcome buttons-->
+                            ${(index == pairings.length - 1 && confirmed) ?
+                    `<td><button onclick='handleOutcome("bye", ${JSON.stringify(currentPairings[i][0])}, ${JSON.stringify({ "name": "fake", "school": "fake" })}, ${i})' class="whiteButton"><</button></td>`
+                    : `<td></td>`}
+                            
                             <td><span style="display: none"></span></td>
                             <td></td>
                             <td></td>
@@ -637,6 +724,7 @@ function editPairings() {
         // check if the pairing is a real pairing
         if (isNaN(currentPairings[i][1])) {
             tableBody += `<tr>
+                            <td>${i + 1}</td>
                             <td><input value="${currentPairings[i][0].score}"></td>
                             <td><input value="${currentPairings[i][0].school}"></td>
                             <td><input onchange="pairingChanged(${i})" value="${currentPairings[i][0].name}"></td>
@@ -648,13 +736,14 @@ function editPairings() {
 
         } else {
             tableBody += `<tr>
+                            <td>${i + 1}</td>
                             <td><input value="${currentPairings[i][0].score}"></td>
                             <td><input value="${currentPairings[i][0].school}"></td>
                             <td><input onchange="pairingChanged(${i})" value="${currentPairings[i][0].name}"></td>
                             <td><button class="whiteButton"><</button><button>O</button><button class="blackButton">></button></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><input onchange="pairingChanged(${i})" value=""></td>
+                            <td><input value=""></td>
+                            <td><input value=""></td>
                         </tr>`
         }
     }
@@ -675,20 +764,21 @@ function confirmPairings() {
     console.log(currentPairings)
     console.log(edits)
 
+    // update any edits they made to the arrays
     for (i = 0; i < edits.length; i++) {
         currentRow = document.getElementById("pairingsTable").children[edits[i]]
 
         // update player 1
-        currentPairings[edits[i]][0].score = parseInt(currentRow.children[0].children[0].value)
-        currentPairings[edits[i]][0].school = currentRow.children[1].children[0].value
-        currentPairings[edits[i]][0].name = currentRow.children[2].children[0].value
+        currentPairings[edits[i]][0].score = parseInt(currentRow.children[1].children[0].value)
+        currentPairings[edits[i]][0].school = currentRow.children[2].children[0].value
+        currentPairings[edits[i]][0].name = currentRow.children[3].children[0].value
 
-        
+
         // update player 2 IF there even is a player 2
         if (currentPairings[edits[i]][1].name) {
-            currentPairings[edits[i]][1].name = currentRow.children[4].children[0].value
-            currentPairings[edits[i]][1].school = currentRow.children[5].children[0].value
-            currentPairings[edits[i]][1].score = parseInt(currentRow.children[6].children[0].value)
+            currentPairings[edits[i]][1].name = currentRow.children[5].children[0].value
+            currentPairings[edits[i]][1].school = currentRow.children[6].children[0].value
+            currentPairings[edits[i]][1].score = parseInt(currentRow.children[7].children[0].value)
         }
 
         console.log(currentPairings[edits[i]])
@@ -699,8 +789,11 @@ function confirmPairings() {
 
     // call display pairings again to make the table update
     pairings[pairings.length - 1] = currentPairings
+    confirmed = true
     displayPairings(pairings.length - 1)
     showButton("nextPairings")
+
+
 }
 
 
