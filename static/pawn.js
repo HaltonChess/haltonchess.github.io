@@ -1,3 +1,13 @@
+// when a new player is added, the winning buttons don't work properly
+// need to check if that happens even when a new player hasn't been added
+
+
+// needs to be able to at least generate the 8th round (so the scores from the 7th can be added)
+// currently, the code gets stuck in an infinite loop when it backs itself into a corner it can't get out of
+
+// any new people added get 0 points - even if they were there but then left
+
+
 let players = []
 let pairings = []
 let edits = []
@@ -66,6 +76,19 @@ function addPlayer() {
                                                             </select>
                                                             </td>
                                                         </tr>`
+}
+
+function addNewPlayer(){
+    let playerName = document.getElementById("newName").value
+    let playerSchool = document.getElementById("newSchool").value
+
+    newPlayer = {
+        name: playerName,
+        school: playerSchool,
+        score: 0
+    }
+
+    players.push(newPlayer)
 }
 
 
@@ -375,6 +398,9 @@ function makeNextPairings() {
     // if they haven't, check that the other pair is also not a repeat
     // if success, switch the pairs
 
+    // this algo works
+    // but now that i think of it, why do the 2 players we choose to switch with have to be in a pair alrd? can't we just go individually?
+    
 
 
 
@@ -569,10 +595,6 @@ function makeNextPairings() {
 
     // if someone has no match that works (repeats "i almost repeated a match...") we should move them to the end of the list
 
-
-    // OKAY, this algo is kinda working? 
-    // but now that i think of it, why do the 2 players we choose to switch with have to be in a pair alrd? can't we just go individually?
-    
     
     // if not, we must go back in the pairings and fix it
     else {

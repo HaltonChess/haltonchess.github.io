@@ -4,7 +4,8 @@
 <head>
   <title>Ontario SLCA</title>
   <meta charset="utf-8">
-  <meta name="description" content="Check out our Pairing Algorithm Wizard, to be used in creating pairs during chess tournaments.">
+  <meta name="description"
+    content="Check out our Pairing Algorithm Wizard, to be used in creating pairs during chess tournaments.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -27,7 +28,8 @@
       <nav class="navbar navbar-expand-md">
 
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-          <img src="static/img/SLCA.png" width="90px" alt="Ontario's Student Led Chess Association Logo. 2 kings with a maple leaf in the background">
+          <img src="static/img/SLCA.png" width="90px"
+            alt="Ontario's Student Led Chess Association Logo. 2 kings with a maple leaf in the background">
         </a>
 
         <!-- Toggler/collapsibe Button -->
@@ -42,7 +44,8 @@
             <li class="nav-item"><a href="/about" class="nav-link">Our Team</a></li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 Programs
               </a>
               <ul class="dropdown-menu">
@@ -50,10 +53,11 @@
                 <li><a class="dropdown-item" href="castle">CASTLE</a></li>
               </ul>
             </li>
-            <li class="nav-item"><a href="chessLeaderboard" class="nav-link" aria-current="page">Chess Leaderboard</a></li>
+            <li class="nav-item"><a href="chessLeaderboard" class="nav-link" aria-current="page">Chess Leaderboard</a>
+            </li>
             <li class="nav-item"><a href="PAWn" class="nav-link active" style="color: white"
                 aria-current="page">PAWn</a></li>
-                <li class="nav-item"><a href="pawnPress" class="nav-link" aria-current="page">The Pawn Press</a></li>
+            <li class="nav-item"><a href="pawnPress" class="nav-link" aria-current="page">The Pawn Press</a></li>
           </ul>
 
         </div>
@@ -67,7 +71,7 @@
     <br>
 
     <div id="addPlayers">
-      
+
 
       <table class="table">
         <thead>
@@ -105,8 +109,8 @@
       <button onclick="createFirstPairings()">Create Pairings</button>
 
 
-      
-      <p  class="text-center lead"><a style="color: #e02629" href="PAWnHCC"> <br><br><br><br>PAWn: Team Edition</a></p>
+
+      <p class="text-center lead"><a style="color: #e02629" href="PAWnHCC"> <br><br><br><br>PAWn: Team Edition</a></p>
     </div>
 
 
@@ -137,7 +141,7 @@
         <button onclick="confirmPairings()">Confirm</button>
         <button onclick="editPairings()">Edit</button>
       </div>
-      
+
       <div id="next">
         <button id="nextPairingsButton" onclick="makeNextPairings()">Create Next Pairings</button>
         <!-- <button id="save" onclick="save()">Finish + Save Tournament Data</button> -->
@@ -162,8 +166,43 @@
         </table>
 
       </div>
+
+      <br><br>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">School</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"></th>
+            <td><input type="text" id="newName" placeholder="Name"></td>
+            <td>
+              <select id="newSchool">
+                <option value="Abbey Park High School">Abbey Park High School</option>
+                <option value="Acton District School">Acton District School</option>
+                <option value="Aldershot High School">Aldershot High School</option>
+                <option value="Craig Kielburger Secondary School">Craig Kielburger Secondary School</option>
+                <option value="Elsie MacGill Secondary School">Elsie MacGill Secondary School</option>
+                <option value="Iroquois Ridge High School">Iroquois Ridge High School</option>
+                <option value="Milton District High School">Milton District High School</option>
+                <option value="T. A. Blakelock High School">T. A. Blakelock High School</option>
+                <option value="White Oaks Secondary School">White Oaks Secondary School</option>
+                <option value="Bishop Reding Catholic Secondary School">Bishop Reding Catholic Secondary School</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button onclick="addNewPlayer()">Add new player</button>
     </div>
 
+   
 
   </div>
 
