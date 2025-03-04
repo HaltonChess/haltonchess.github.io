@@ -1,11 +1,15 @@
-// when a new player is added, the winning buttons don't work properly
-// need to check if that happens even when a new player hasn't been added
-
-
 // needs to be able to at least generate the 8th round (so the scores from the 7th can be added)
 // currently, the code gets stuck in an infinite loop when it backs itself into a corner it can't get out of
 
-// any new people added get 0 points - even if they were there but then left
+// any new people added get 0 points - even if they were there previously but then left
+
+
+// the winning buttons don't work properly sometimes
+// has to do with the fail safe for when code backs itself into a corner
+// there is nothing to fix the colors if they don't match
+
+
+
 
 
 let players = []
@@ -78,7 +82,7 @@ function addPlayer() {
                                                         </tr>`
 }
 
-function addNewPlayer(){
+function addNewPlayer() {
     let playerName = document.getElementById("newName").value
     let playerSchool = document.getElementById("newSchool").value
 
@@ -400,7 +404,7 @@ function makeNextPairings() {
 
     // this algo works
     // but now that i think of it, why do the 2 players we choose to switch with have to be in a pair alrd? can't we just go individually?
-    
+
 
 
 
@@ -428,10 +432,10 @@ function makeNextPairings() {
         options = [0, 0, 0, 0, 0, 0]
         smallestDiff = 1000
 
-        console.log("\n----------PLAYERS----------")
-        for (i = 0; i < playersByPoints.length; i++) {
-            console.log(playersByPoints[i])
-        }
+        // console.log("\n----------PLAYERS----------")
+        // for (i = 0; i < playersByPoints.length; i++) {
+        //     console.log(playersByPoints[i])
+        // }
 
         for (i = 1; i < playersByPoints.length; i++) {
             playerB = playersByPoints[i]
@@ -491,14 +495,14 @@ function makeNextPairings() {
 
         // check the highest option that is available
         if (options[0] != 0) {
-            console.log("perfect pair found! [exact score, different schools, different colors]");
+            console.log("perfect pair found!\n", playerA.name, "and", playersByPoints[options[0]].name, "\n[exact score, different schools, different colors]");
 
             (playerA.color == "white") ? currentPairings.push([playerA, playersByPoints[options[0]]]) : currentPairings.push([playersByPoints[options[0]], playerA]);
             playersByPoints.splice(options[0], 1)
         }
 
         else if (options[1] != 0) {
-            console.log("close to perfect pair found [exact score, different schools, same colors]");
+            console.log("close to perfect pair found\n", playerA.name, "and", playersByPoints[options[1]].name, "\n[exact score, different schools, same colors]");
 
             (playerA.color == "black") ? playerA.color = "white" : playerA.color = "black";  // switch colors
             (playerA.color == "white") ? currentPairings.push([playerA, playersByPoints[options[1]]]) : currentPairings.push([playersByPoints[options[1]], playerA]);
@@ -506,7 +510,7 @@ function makeNextPairings() {
         }
 
         else if (options[2] != 0) {
-            console.log("close to perfect pair found [score within 0.5, different schools, different colors]")
+            console.log("close to perfect pair found\n", playerA.name, "and", playersByPoints[options[2]].name, "\n[score within 0.5, different schools, different colors]")
 
             // switch colors
             let temp1 = playerA.color;
@@ -521,7 +525,7 @@ function makeNextPairings() {
 
 
         else if (options[3] != 0) {
-            console.log("good pair found [score within 0.5, different schools, same colors]");
+            console.log("good pair found\n", playerA.name, "and", playersByPoints[options[3]].name, "\n[score within 0.5, different schools, same colors]");
 
             (playerA.color == "black") ? playerA.color = "white" : playerA.color = "black";  // switch colors
             (playerA.color == "white") ? currentPairings.push([playerA, playersByPoints[options[3]]]) : currentPairings.push([playersByPoints[options[3]], playerA]);
@@ -572,7 +576,7 @@ function makeNextPairings() {
             playersByPoints.push(playerA)
         }
 
-    
+
         playersByPoints.shift()
 
     }
@@ -593,33 +597,85 @@ function makeNextPairings() {
     }
 
 
-    // if someone has no match that works (repeats "i almost repeated a match...") we should move them to the end of the list
-
-    
     // if not, we must go back in the pairings and fix it
     else {
-        console.log("oh fuck me, backed myself into a corner - finding better pair now...")
+        console.log("fuck, backed myself into a corner - finding better pair now...")
 
-        newPairing = []
+
+        // other pairings: [playerA, playerB]
+        // bad pairing: [playerC, playerD]
 
         // reverse for loop through currentPairings
         for (let i = currentPairings.length - 2; i >= 0; i--) {
-            if (!isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length-1][0].name) && !isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length-1][1].name)){
-                
-                let temp = currentPairings[i][0]
-                currentPairings[i][0] = currentPairings[currentPairings.length-1][1]
-                currentPairings[currentPairings.length-1][1] = temp
-                break
 
-            } else if (!isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length-1][0].name) && !isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length-1][1].name)){
-                
+            // check if playerA & playerC have played together && if playerB & playerD have played together
+            if (!isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length - 1][0].name) && !isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length - 1][1].name)) {
+
                 let temp = currentPairings[i][0]
-                currentPairings[i][0] = currentPairings[currentPairings.length-1][0]
-                currentPairings[currentPairings.length-1][0] = temp
+                currentPairings[i][0] = currentPairings[currentPairings.length - 1][1]
+                currentPairings[currentPairings.length - 1][1] = temp
                 break
             }
+
+            // check if playerB & playerC have played together && if playerA & playerD have played together
+            else if (!isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length - 1][0].name) && !isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length - 1][1].name)) {
+
+                let temp = currentPairings[i][0]
+                currentPairings[i][0] = currentPairings[currentPairings.length - 1][0]
+                currentPairings[currentPairings.length - 1][0] = temp
+                break
+            }
+
         }
 
+        let playerA = currentPairings[i][0]
+        let playerB = currentPairings[i][1]
+
+        // color handling for the switched pair
+        // if they have same color, switch one
+        if (playerA.color == playerB.color) {
+            if (playerA.color == "black") {
+                playerA.color = "white"
+            } else {
+                playerA.color = "black"
+            }
+
+            // if they have different colors, switch both
+        } else {
+            temp = playerA.color
+            playerA.color = playerB.color
+            playerB.color = temp
+        }
+
+        // ensure that the white one is the first one in the pairing
+        if (playerB.color == "white") {
+            currentPairings[i] = currentPairings[i].reverse()
+        }
+
+    }
+
+    let playerC = currentPairings[currentPairings.length - 1][0]
+    let playerD = currentPairings[currentPairings.length - 1][1]
+
+    // color handling for the last pair
+    // if they have same color, switch one
+    if (playerC.color == playerD.color) {
+        if (playerC.color == "black") {
+            playerC.color = "white"
+        } else {
+            playerC.color = "black"
+        }
+
+        // if they have different colors, switch both
+    } else {
+        temp = playerC.color
+        playerC.color = playerD.color
+        playerD.color = temp
+    }
+
+    // ensure that the white one is the first one in the pairing
+    if (playerD.color == "white") {
+        currentPairings[currentPairings.length - 1] = currentPairings[currentPairings.length - 1].reverse()
     }
 
 
@@ -779,8 +835,9 @@ function pairingChanged(row) {
 }
 
 function confirmPairings() {
-    console.log(currentPairings)
-    console.log(edits)
+    console.log("pairings confirmed by user ✅")
+    console.log("current pairings:", currentPairings)
+    console.log("edits:", edits)
 
     // update any edits they made to the arrays
     for (i = 0; i < edits.length; i++) {
