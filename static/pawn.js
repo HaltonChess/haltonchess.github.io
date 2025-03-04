@@ -1,7 +1,3 @@
-const e = require("express")
-
-
-
 let players = []
 let pairings = []
 let edits = []
