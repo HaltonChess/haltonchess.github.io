@@ -13,6 +13,7 @@
 
 
 let players = []
+let toDelete = []
 let pairings = []
 let edits = []
 let schools = ["Abbey Park High School", "Acton District School", "Aldershot High School", "Craig Kielburger Secondary School",
@@ -334,7 +335,19 @@ function saveLastPairings() {
     }
 
 
+// NO THIS DOESN'T WORK.
+    // delete players that dropped out
+    console.log("need to delete this", toDelete)
+    for (i = 0; i < players.length; i++) {
+        if (toDelete.includes(players[i])){
+            players.splice(i, 1)
+            console.log(",ust remove him")
+        }
+    }
+
+    
     console.log(players)
+    toDelete = []
     currentPairings = []
 }
 
