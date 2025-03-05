@@ -1,13 +1,11 @@
 // needs to be able to at least generate the 8th round (so the scores from the 7th can be added)
-// currently, the code gets stuck in an infinite loop when it backs itself into a corner it can't get out of
-
-// any new people added get 0 points - even if they were there previously but then left
+// currently, when it backs itself into a corner it can't get out of, the code gets stuck in an infinite loop 
 
 
 // the winning buttons don't work properly sometimes
 // has to do with the fail safe for when code backs itself into a corner
 // there is nothing to fix the colors if they don't match
-
+// update: the winning buttons should work now, let's check tho
 
 
 
@@ -90,10 +88,22 @@ function addNewPlayer() {
     newPlayer = {
         name: playerName,
         school: playerSchool,
-        score: 0
+        score: 0,
+        color: "black",
     }
 
     players.push(newPlayer)
+    document.getElementById("newName").value = ""
+    alert("player succesfully added! will be present in the next rounds")
+}
+
+
+function removeOldPlayer() {
+    let playerName = document.getElementById("newName").value
+
+    toDelete.push(playerName)
+    document.getElementById("newName").value = ""
+    alert("player will be removed in the next rounds")
 }
 
 
@@ -335,13 +345,13 @@ function saveLastPairings() {
     }
 
 
-// NO THIS DOESN'T WORK.
     // delete players that dropped out
     console.log("need to delete this", toDelete)
     for (i = 0; i < players.length; i++) {
-        if (toDelete.includes(players[i])){
+        
+        if (toDelete.includes(players[i].name)){
             players.splice(i, 1)
-            console.log(",ust remove him")
+            console.log("just remove him")
         }
     }
 
@@ -374,7 +384,7 @@ function makeNextPairings() {
 
 
     // make list of players by point
-    playersByPoints = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+    playersByPoints = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 
     for (i = 0; i < players.length; i++) {
         playersByPoints[2 * (players[i].score)].push(players[i])
@@ -619,7 +629,7 @@ function makeNextPairings() {
         // bad pairing: [playerC, playerD]
 
         // reverse for loop through currentPairings
-        for (let i = currentPairings.length - 2; i >= 0; i--) {
+        for (i = currentPairings.length - 2; i >= 0; i--) {
 
             // check if playerA & playerC have played together && if playerB & playerD have played together
             if (!isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length - 1][0].name) && !isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length - 1][1].name)) {
@@ -641,23 +651,36 @@ function makeNextPairings() {
 
         }
 
+        console.log("i", i)
+        console.log(currentPairings[i])
+
         let playerA = currentPairings[i][0]
         let playerB = currentPairings[i][1]
+
+        console.log("player A color:", playerA.color)
+        console.log("player A name:", playerA.name)
+        console.log("player B color:", playerB.color)
 
         // color handling for the switched pair
         // if they have same color, switch one
         if (playerA.color == playerB.color) {
+            console.log("colors r the same")
             if (playerA.color == "black") {
+                console.log("changing player a to white")
                 playerA.color = "white"
             } else {
+                console.log("changing player A to black")
                 playerA.color = "black"
             }
 
             // if they have different colors, switch both
         } else {
+            console.log("colors r different. switching colors")
             temp = playerA.color
             playerA.color = playerB.color
             playerB.color = temp
+            console.log("player A color:", playerA.color)
+            console.log("player B color:", playerB.color)
         }
 
         // ensure that the white one is the first one in the pairing
@@ -700,6 +723,7 @@ function makeNextPairings() {
 
     // display new pairings
     confirmed = false
+    document.getElementById("updatePlayers").style.display = "none"
     addPairingToMenu()
     displayPairings(pairings.length - 1)
 
@@ -878,6 +902,7 @@ function confirmPairings() {
     // call display pairings again to make the table update
     pairings[pairings.length - 1] = currentPairings
     confirmed = true
+    document.getElementById("updatePlayers").style.display = "block"
     displayPairings(pairings.length - 1)
     showButton("nextPairings")
 

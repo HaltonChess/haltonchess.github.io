@@ -167,42 +167,54 @@
 
       </div>
 
-      <br><br>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">School</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row"></th>
-            <td><input type="text" id="newName" placeholder="Name"></td>
-            <td>
-              <select id="newSchool">
-                <option value="Abbey Park High School">Abbey Park High School</option>
-                <option value="Acton District School">Acton District School</option>
-                <option value="Aldershot High School">Aldershot High School</option>
-                <option value="Craig Kielburger Secondary School">Craig Kielburger Secondary School</option>
-                <option value="Elsie MacGill Secondary School">Elsie MacGill Secondary School</option>
-                <option value="Iroquois Ridge High School">Iroquois Ridge High School</option>
-                <option value="Milton District High School">Milton District High School</option>
-                <option value="T. A. Blakelock High School">T. A. Blakelock High School</option>
-                <option value="White Oaks Secondary School">White Oaks Secondary School</option>
-                <option value="Bishop Reding Catholic Secondary School">Bishop Reding Catholic Secondary School</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
-      <button onclick="addNewPlayer()">Add new player</button>
+      <br><br>
+
+      <div id="updatePlayers" style="display:none">
+        <hr><br>
+
+        <h2 class="title" >Update Players</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">School</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"></th>
+              <td><input type="text" id="newName" placeholder="Name"></td>
+              <td>
+                <select id="newSchool">
+                  <option value="Abbey Park High School">Abbey Park High School</option>
+                  <option value="Acton District School">Acton District School</option>
+                  <option value="Aldershot High School">Aldershot High School</option>
+                  <option value="Craig Kielburger Secondary School">Craig Kielburger Secondary School</option>
+                  <option value="Elsie MacGill Secondary School">Elsie MacGill Secondary School</option>
+                  <option value="Iroquois Ridge High School">Iroquois Ridge High School</option>
+                  <option value="Milton District High School">Milton District High School</option>
+                  <option value="T. A. Blakelock High School">T. A. Blakelock High School</option>
+                  <option value="White Oaks Secondary School">White Oaks Secondary School</option>
+                  <option value="Bishop Reding Catholic Secondary School">Bishop Reding Catholic Secondary School
+                  </option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <button onclick="addNewPlayer()">Add player</button>
+        <button onclick="removeOldPlayer()">Remove player</button>
+      </div>
+        <br><br><br>
+      
     </div>
 
-   
+
 
   </div>
 
