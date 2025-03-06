@@ -881,7 +881,7 @@ function confirmPairings() {
         currentRow = document.getElementById("pairingsTable").children[edits[i]]
 
         // update player 1
-        currentPairings[edits[i]][0].score = parseInt(currentRow.children[1].children[0].value)
+        currentPairings[edits[i]][0].score = parseFloat(currentRow.children[1].children[0].value)
         currentPairings[edits[i]][0].school = currentRow.children[2].children[0].value
         currentPairings[edits[i]][0].name = currentRow.children[3].children[0].value
 
@@ -890,7 +890,7 @@ function confirmPairings() {
         if (currentPairings[edits[i]][1].name) {
             currentPairings[edits[i]][1].name = currentRow.children[5].children[0].value
             currentPairings[edits[i]][1].school = currentRow.children[6].children[0].value
-            currentPairings[edits[i]][1].score = parseInt(currentRow.children[7].children[0].value)
+            currentPairings[edits[i]][1].score = parseFloat(currentRow.children[7].children[0].value)
         }
 
         console.log(currentPairings[edits[i]])
