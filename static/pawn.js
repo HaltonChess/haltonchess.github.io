@@ -81,30 +81,63 @@ function addPlayer() {
                                                         </tr>`
 }
 
-function addNewPlayer() {
-    let playerName = document.getElementById("newName").value
-    let playerSchool = document.getElementById("newSchool").value
 
-    newPlayer = {
-        name: playerName,
-        school: playerSchool,
-        score: 0,
-        color: "black",
+function addOrRemoveClick() {
+    if (document.getElementById("addOrRemove").checked) {
+        document.getElementById("schoolSelect").style.visibility = "visible";
     }
-
-    players.push(newPlayer)
-    document.getElementById("newName").value = ""
-    alert("player succesfully added! will be present in the next rounds")
+    else {
+        document.getElementById("schoolSelect").style.visibility = "hidden";
+    }
 }
 
 
-function removeOldPlayer() {
-    let playerName = document.getElementById("newName").value
+function addOrRemoveNewPlayer() {
+    if (document.getElementById("addOrRemove").checked) {
+        let playerName = document.getElementById("newName").value
+        let playerSchool = document.getElementById("newSchool").value
 
-    toDelete.push(playerName)
-    document.getElementById("newName").value = ""
-    alert("player will be removed in the next rounds")
+        newPlayer = {
+            name: playerName,
+            school: playerSchool,
+            score: 0,
+            color: "black",
+        }
+
+        players.push(newPlayer)
+        document.getElementById("newName").value = ""
+        alert("player succesfully added! will be present in the next rounds")
+    }
+    else {
+        let playerName = document.getElementById("newName").value
+
+        let found = false
+        for (let i = 0; i < pairings[pairings.length-1].length; i++) {
+            if (pairings[pairings.length-1][i][0].name == playerName) {
+                found = true
+                break
+            }
+
+            console.log(pairings[pairings.length-1][i][1].name)
+            if (isNaN(pairings[pairings.length-1][i][1])) {
+                if (pairings[pairings.length-1][i][1].name == playerName) {
+                    found = true
+                    break
+                }
+            }
+        }
+
+        if (!found) {
+            alert("ERROR 404: PLAYER NOT FOUND.")
+        }
+        else {
+            toDelete.push(playerName)
+            document.getElementById("newName").value = ""
+            alert("player will be removed in the next rounds")
+        }
+    }
 }
+
 
 
 function automatePlayers() {
@@ -348,14 +381,14 @@ function saveLastPairings() {
     // delete players that dropped out
     console.log("need to delete this", toDelete)
     for (i = 0; i < players.length; i++) {
-        
-        if (toDelete.includes(players[i].name)){
+
+        if (toDelete.includes(players[i].name)) {
             players.splice(i, 1)
             console.log("just remove him")
         }
     }
 
-    
+
     console.log(players)
     toDelete = []
     currentPairings = []
