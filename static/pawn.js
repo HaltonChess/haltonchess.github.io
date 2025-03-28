@@ -662,11 +662,17 @@ function makeNextPairings() {
         // bad pairing: [playerC, playerD]
 
         // reverse for loop through currentPairings
+        let i = 0;
         for (i = currentPairings.length - 2; i >= 0; i--) {
+
+            if (!isNaN(currentPairings[i][1])){
+                console.log('yeah we r cooked')
+            }
 
             // check if playerA & playerC have played together && if playerB & playerD have played together
             if (!isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length - 1][0].name) && !isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length - 1][1].name)) {
 
+                // switch players
                 let temp = currentPairings[i][0]
                 currentPairings[i][0] = currentPairings[currentPairings.length - 1][1]
                 currentPairings[currentPairings.length - 1][1] = temp
@@ -676,6 +682,7 @@ function makeNextPairings() {
             // check if playerB & playerC have played together && if playerA & playerD have played together
             else if (!isRepeat(currentPairings[i][1].name, currentPairings[currentPairings.length - 1][0].name) && !isRepeat(currentPairings[i][0].name, currentPairings[currentPairings.length - 1][1].name)) {
 
+                // switch players
                 let temp = currentPairings[i][0]
                 currentPairings[i][0] = currentPairings[currentPairings.length - 1][0]
                 currentPairings[currentPairings.length - 1][0] = temp
@@ -685,6 +692,9 @@ function makeNextPairings() {
         }
 
         console.log("i", i)
+        if (i==-1){
+            console.log("---------------------END OF MATCH. NO MORE PAIRINGS POSSIBLE.---------------------")
+        }
         console.log(currentPairings[i])
 
         let playerA = currentPairings[i][0]
