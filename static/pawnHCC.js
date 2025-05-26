@@ -242,6 +242,7 @@ function makeNextPairings() {
 
 
     while (teamsCopy.length > 2) {
+        console.log("teamsCopy: ", teamsCopy)
 
         teamA = teamsCopy[0]
 
@@ -265,17 +266,18 @@ function makeNextPairings() {
             // randomize white and black
             if (Math.random() <= 0.5) {
                 currentRound.push([teamA, teamB])
-                break
             }
             else {
                 currentRound.push([teamB, teamA])
-                break
             }
+
+            teamsCopy.splice(i, 1)
+            teamsCopy.shift()
+            break
 
         }
 
-        teamsCopy.splice(i, 1)
-        teamsCopy.shift()
+        
 
 
     }
@@ -569,7 +571,6 @@ function playerAbsent(player, team) {
 
 
 function handleOutcome(winningPlayer, row) {
-    console.log(document.getElementById("pairingsTable").children)
 
     document.getElementById("pairingsTable").children[row].children[1].children[0].style.backgroundColor = "#2b292a"
     document.getElementById("pairingsTable").children[row].children[3].children[0].style.backgroundColor = "#2b292a"
