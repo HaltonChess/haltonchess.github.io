@@ -1,35 +1,16 @@
-var teams = [];
-var rounds = [];
+var teams = []
+var rounds = []
+let byes = []  // list of teams  who have had a bye
 var currentRoundNumber = 0;
 var currentPairNumber = 0;
 
 var autoTeams = [
     {
-        teamName: "CKSS",
+        teamName: "CKSS A",
         A: "Kai Bar-On",
         B: "Ryan Nizamani",
         C: "Agastya Khanna",
         D: "Barnett Luo",
-        score: 0,
-        matchPoints: [],
-        roundScores: []
-    },
-    {
-        teamName: "WOSS",
-        A: "Frank Lin",
-        B: "Aadil",
-        C: "Xiao Hong",
-        D: "Woss Sweat",
-        score: 0,
-        matchPoints: [],
-        roundScores: []
-    },
-    {
-        teamName: "EMSS",
-        A: "Uzair",
-        B: "Angela",
-        C: "Vidu",
-        D: "Javan",
         score: 0,
         matchPoints: [],
         roundScores: []
@@ -45,15 +26,75 @@ var autoTeams = [
         roundScores: []
     },
     {
+        teamName: "WOSS A",
+        A: "Frank Lin",
+        B: "Aadil",
+        C: "Xiao Hong",
+        D: "Woss Sweat",
+        score: 0,
+        matchPoints: [],
+        roundScores: []
+    },
+    {
+        teamName: "APHS A",
+        A: "Angel",
+        B: "Dog",
+        C: "Cat",
+        D: "Lawyer",
+        score: 0,
+        matchPoints: [],
+        roundScores: []
+    },
+    {
+        teamName: "WOSS B",
+        A: "Franker",
+        B: "Aadiler",
+        C: "Xiaoer",
+        D: "Player D",
+        score: 0,
+        matchPoints: [],
+        roundScores: []
+    },
+    {
+        teamName: "APHS B",
+        A: "Angeler",
+        B: "Doger",
+        C: "Cater",
+        D: "Lawyerer",
+        score: 0,
+        matchPoints: [],
+        roundScores: []
+    },
+    {
+        teamName: "EMSS",
+        A: "Uzair",
+        B: "Angela",
+        C: "Vidu",
+        D: "Javan",
+        score: 0,
+        matchPoints: [],
+        roundScores: []
+    },
+    {
         teamName: "IRHS",
         A: "Lawrence",
         B: "Hargun",
         C: "Yousef",
-        D: "",
+        D: "Player D",
         score: 0,
         matchPoints: [],
         roundScores: []
-    }
+    },
+    {
+        teamName: "CKSS B",
+        A: "Kailer",
+        B: "Ryaner",
+        C: "Agastyer",
+        D: "Barnetter",
+        score: 0,
+        matchPoints: [],
+        roundScores: []
+    },
 ]
 
 
@@ -103,66 +144,219 @@ function automateTeams() {
 }
 
 
-function createRounds() {
-    // if even # of teams, # of rounds will be length - 1
-    // else, # of rounds will be length
+function createFirstRound() {
+
     rounds = []
     document.getElementById("pairingsMenu").innerHTML = ""
 
-    if (teams.length % 2 == 0) {
-        var numberOfRounds = teams.length - 1;
-    } else {
-        var numberOfRounds = teams.length;
-    }
-
-
+    // populate team info
     for (i = 0; i < teams.length; i++) {
         teams[i].matchPoints = []
         teams[i].roundScores = []
         teams[i].score = 0
-        for (n = 0; n < numberOfRounds; n++) {
+        for (n = 0; n < 10; n++) {
             teams[i].roundScores.push(0)
             teams[i].matchPoints.push(0)
         }
     }
 
 
-    for (i = 0; i < numberOfRounds; i++) {
-        currentRound = []
+    currentRound = []
 
-        if (teams.length % 2 == 0) {
-            for (var j = 0; j < teams.length / 2; j++) {
-                currentRound.push([teams[j], teams[teams.length - 1 - j]])
-            }
-            teams.splice(1, 0, teams[teams.length - 1]);
-
-        } else {
-            for (var j = 0; j < (teams.length - 1) / 2; j++) {
-                currentRound.push([teams[j], teams[teams.length - 2 - j]])
-            }
-            currentRound.push([teams[teams.length - 1]])
-            teams.splice(0, 0, teams[teams.length - 1]);
+    for (i = 0; i < teams.length; i += 2) {
+        console.log("bru")
+        // just pair teams next to each other
+        if (teams[i + 1]) {
+            currentRound.push([teams[i], teams[i + 1]])
         }
-        teams.pop();
 
-        rounds.push(currentRound)
+        // for if there is an uneven # of teams
+        else {
+            currentRound.push([teams[i]])
+            byes.push(teams[i].teamName)
+        }
     }
 
+    rounds.push(currentRound)
     console.log(rounds)
 
     createIndividualPairings()
 
-    for (i = 0; i < numberOfRounds; i++) {
-        document.getElementById("pairingsMenu").innerHTML += `<li class="nav-item">
-                                                                  <a class="nav-link" aria-current="page" onclick="displayTeamPairings(${i})">Round ${i + 1}</a>
-                                                              </li>`
-    }
+
+    document.getElementById("pairingsMenu").innerHTML += `<li class="nav-item">
+                                                                <a class="nav-link" aria-current="page" onclick="displayTeamPairings(${0})">Round ${1}</a>
+                                                            </li>`
+
     document.getElementById("pairingsMenu").lastChild.children[0].classList.add('active')
     document.getElementById("setup").style.display = "none"
-    displayTeamPairings(0)
+    displayTeamPairings(rounds.length - 1)
     document.getElementById("pairings").style.display = "block"
     updateStandings()
 }
+
+
+function isRepeat(teamA, teamB) {
+    for (j = 0; j < rounds.length; j++) {
+        for (k = 0; k < rounds[j].length; k++) {
+            if (rounds[j][k].length != 1) {
+                if ((rounds[j][k][0].teamName == teamA && rounds[j][k][1].teamName == teamB) || (rounds[j][k][0].teamName == teamB && rounds[j][k][1].teamName == teamA)) {
+                    return true
+                }
+            }
+        }
+    }
+
+    return false
+}
+
+
+function makeNextPairings() {
+
+
+    // sort teams by score (match points)
+    teamsCopy = [...teams].sort((a, b) => b.score - a.score)
+
+    console.log(teamsCopy)
+
+
+    currentRound = []
+
+
+    // if odd # of teams, determine who gets the bye
+    if (teamsCopy.length % 2 != 0) {
+
+        // go through the teams, lowest players first
+        for (i = teamsCopy.length - 1; i >= 0; i--) {
+
+            // if a team did not already get a bye, give the bye to them
+            if (!byes.includes(teamsCopy[i].teamName)) {
+                currentRound.push([teamsCopy[i]])
+                byes.push(teamsCopy[i].teamName)
+                console.log(`${teamsCopy[i].teamName} got the bye`)
+                teamsCopy.splice(i, 1)
+                break
+            }
+        }
+    }
+
+
+
+    while (teamsCopy.length > 2) {
+
+        teamA = teamsCopy[0]
+
+
+        for (i = 1; i < teamsCopy.length; i++) {
+            teamB = teamsCopy[i]
+
+
+            if (isRepeat(teamA.teamName, teamB.teamName)) {
+                console.log(`i almost repeated a match between ${teamA.teamName} and ${teamB.teamName}. I'm ashamed of my actions`)
+                continue
+            }
+
+            console.log(teamA.teamName.slice(0, 4))
+            if (teamA.teamName.slice(0, 4) == teamB.teamName.slice(0, 4)) {
+                console.log(`${teamA.teamName} and ${teamB.teamName} are the same school huh...`)
+                continue
+            }
+
+
+            // randomize white and black
+            if (Math.random() <= 0.5) {
+                currentRound.push([teamA, teamB])
+                break
+            }
+            else {
+                currentRound.push([teamB, teamA])
+                break
+            }
+
+        }
+
+        teamsCopy.splice(i, 1)
+        teamsCopy.shift()
+
+
+    }
+
+
+    // there are now 2 teams left
+    console.log("there are now 2 teams left")
+    console.log(teamsCopy[0].teamName + " and " + teamsCopy[1].teamName)
+
+    // make the pair 
+    currentRound.push([teamsCopy[0], teamsCopy[1]])
+
+
+
+    // check if this last pair is unique
+    if (!isRepeat(teamsCopy[0].teamName, teamsCopy[1].teamName)) {
+        console.log("phew! last pair successfully made between " + teamsCopy[0].teamName + " and " + teamsCopy[1].teamName)
+    }
+
+
+    // if not, we must go back in the pairings and fix it
+    else {
+        console.log("fuck, backed myself into a corner - finding better pair now...")
+
+
+        // other pairings: [playerA, playerB]
+        // bad pairing: [playerC, playerD]
+
+        // reverse for loop through currentPairings
+        let i = 0;
+        for (i = currentRound.length - 2; i >= 0; i--) {
+
+
+            // check if playerA & playerC have played together && if playerB & playerD have played together
+            if (!isRepeat(currentRound[i][0].teamName, currentRound[currentRound.length - 1][0].teamName) && !isRepeat(currentRound[i][1].teamName, currentRound[currentRound.length - 1][1].teamName)) {
+
+                // switch players
+                let temp = currentRound[i][0]
+                currentRound[i][0] = currentRound[currentRound.length - 1][1]
+                currentRound[currentRound.length - 1][1] = temp
+                break
+            }
+
+            // check if playerB & playerC have played together && if playerA & playerD have played together
+            else if (!isRepeat(currentRound[i][1].teamName, currentRound[currentRound.length - 1][0].teamName) && !isRepeat(currentRound[i][0].teamName, currentRound[currentRound.length - 1][1].teamName)) {
+
+                // switch players
+                let temp = currentRound[i][0]
+                currentRound[i][0] = currentRound[currentRound.length - 1][0]
+                currentRound[currentRound.length - 1][0] = temp
+                break
+            }
+
+        }
+    }
+
+    console.log(currentRound)
+
+
+    rounds.push(currentRound)
+
+
+
+    createIndividualPairings()
+
+
+    // add new pairing menu 
+    document.getElementById("pairingsMenu").innerHTML += `<li class="nav-item">
+                                                            <a class="nav-link active" aria-current="page" onclick="displayTeamPairings(${rounds.length - 1})">Round ${rounds.length}</a>
+                                                        </li>`
+
+    document.getElementById("pairingsMenu").lastChild.children[0].classList.add('active')
+    document.getElementById("setup").style.display = "none"
+    displayTeamPairings(rounds.length - 1)
+    document.getElementById("pairings").style.display = "block"
+    updateStandings()
+
+
+}
+
+
 
 
 
@@ -222,11 +416,7 @@ function createIndividualPairings() {
 function displayTeamPairings(index) {
     currentRoundNumber = index
 
-    if (currentRoundNumber == rounds.length-1){
-        document.getElementById("winnerButton").style.display = "block"
-    } else {
-        document.getElementById("winnerButton").style.display = "none"
-    }
+
 
 
     activeItem = document.getElementById("pairingsMenu").getElementsByClassName('active')[0]
@@ -251,9 +441,9 @@ function displayTeamPairings(index) {
     for (i = 0; i < currentPairing.length; i++) {
 
         // 0 = lose, 0.5 = tie, 1 = win
-        color = ["white", "#bde992", "#81B64C"]
+        color = ["#2b292a", "#bde992", "#81B64C"]
 
-        // check if the team pairing is a double pairing   
+        // check if the team pairing is a normal pairing   
         if (currentPairing[i].length > 1) {
             tableBody += `<tr>
                             <th scope="row">${currentPairing[i][0].roundScores[index]}</th>
@@ -283,12 +473,12 @@ function displayTeamPairings(index) {
 
 function displayIndividualPairings(round, pair) {
     console.log("displaying individual pairings...")
-    
+
     currentPairNumber = pair
 
     document.getElementById("pairingsMenu").style.display = "none"
+    document.getElementById("nextPairingsButton").style.display = "none"
     document.getElementById("standings").style.display = "none"
-    document.getElementById("winnerButton").style.display = "none"
     document.getElementById("back").style.display = "block"
 
 
@@ -302,7 +492,7 @@ function displayIndividualPairings(round, pair) {
 
     tableBody = ""
 
-    color = ["#81B64C", "#bde992", "white"]
+    color = ["#81B64C", "#bde992", "#2b292a"]
 
     currentPairings = rounds[round][pair][2]
     console.log(currentPairings)
@@ -323,7 +513,7 @@ function displayIndividualPairings(round, pair) {
 
         // otherwise it is a bye
         else {
-            if (isNaN(currentPairings[i][0])){
+            if (isNaN(currentPairings[i][0])) {
                 tableBody += `<tr>
                                 <td scope="col"><button onclick="playerAbsent(${i}, ${0})">X</button></td>
                                 <td><span>${currentPairings[i][0]}</span></td>
@@ -341,7 +531,7 @@ function displayIndividualPairings(round, pair) {
                                 <td scope="col"><button onclick="playerAbsent(${i}, ${1})">X</button></td>
                             </tr>`
             }
-            
+
         }
     }
 
@@ -360,29 +550,29 @@ function displayIndividualPairings(round, pair) {
 }
 
 
-function playerAbsent(player, team){
+function playerAbsent(player, team) {
     console.log(rounds[currentRoundNumber][currentPairNumber][2][player][team] + " is absent")
 
     rounds[currentRoundNumber][currentPairNumber][2][player][team] = 0
 
     console.log(rounds[currentRoundNumber][currentPairNumber][2])
 
-    for (i = player; i < 3; i++){
+    for (i = player; i < 3; i++) {
         console.log(rounds[currentRoundNumber][currentPairNumber][2][i])
-        rounds[currentRoundNumber][currentPairNumber][2][i][team] =  rounds[currentRoundNumber][currentPairNumber][2][i+1][team]
+        rounds[currentRoundNumber][currentPairNumber][2][i][team] = rounds[currentRoundNumber][currentPairNumber][2][i + 1][team]
     }
     rounds[currentRoundNumber][currentPairNumber][2][3][team] = 0
 
     console.log(rounds[currentRoundNumber][currentPairNumber][2])
-    displayIndividualPairings(currentRoundNumber, currentPairNumber) 
+    displayIndividualPairings(currentRoundNumber, currentPairNumber)
 }
 
 
 function handleOutcome(winningPlayer, row) {
     console.log(document.getElementById("pairingsTable").children)
 
-    document.getElementById("pairingsTable").children[row].children[1].children[0].style.backgroundColor = "white"
-    document.getElementById("pairingsTable").children[row].children[3].children[0].style.backgroundColor = "white"
+    document.getElementById("pairingsTable").children[row].children[1].children[0].style.backgroundColor = "#2b292a"
+    document.getElementById("pairingsTable").children[row].children[3].children[0].style.backgroundColor = "#2b292a"
 
     if (winningPlayer == 1) {
         document.getElementById("pairingsTable").children[row].children[1].children[0].style.backgroundColor = "#81B64C"
@@ -437,6 +627,7 @@ function updatePoints(round, pair) {
 function back() {
     document.getElementById("pairingsMenu").style.display = "flex"
     document.getElementById("standings").style.display = "block"
+    document.getElementById("nextPairingsButton").style.display = "block"
     document.getElementById("back").style.display = "none"
 
 
@@ -444,7 +635,7 @@ function back() {
     findMatchPoints()
     updateStandings()
     displayTeamPairings(currentRoundNumber)
-} 
+}
 
 
 function findMatchPoints() {
@@ -470,17 +661,17 @@ function findMatchPoints() {
 
     // check if all rounds have been accounted for
     if (rounds[currentRoundNumber][currentPairNumber][0].roundScores[currentRoundNumber] + rounds[currentRoundNumber][currentPairNumber][1].roundScores[currentRoundNumber] >= sum) {
-       
+
         // if team 1 won
         if (rounds[currentRoundNumber][currentPairNumber][0].roundScores[currentRoundNumber] > rounds[currentRoundNumber][currentPairNumber][1].roundScores[currentRoundNumber]) {
             rounds[currentRoundNumber][currentPairNumber][0].matchPoints[currentRoundNumber] = 1
         }
-        
+
         // if team 2 won
         else if (rounds[currentRoundNumber][currentPairNumber][0].roundScores[currentRoundNumber] < rounds[currentRoundNumber][currentPairNumber][1].roundScores[currentRoundNumber]) {
             rounds[currentRoundNumber][currentPairNumber][1].matchPoints[currentRoundNumber] = 1
         }
-        
+
         // if it was a tie
         else {
             rounds[currentRoundNumber][currentPairNumber][0].matchPoints[currentRoundNumber] = 0.5
@@ -499,7 +690,7 @@ function updateStandings() {
     console.log("updating standings...")
 
     // sort teams by score
-    teams.sort(function(a, b) {
+    teams.sort(function (a, b) {
         return parseFloat(b.score) - parseFloat(a.score);
     })
 
@@ -521,14 +712,12 @@ function findWinner() {
     winners = []
 
     // sort teams by score
-    teams.sort(function(a, b) {
-        return parseFloat(b.score) - parseFloat(a.score);
-    })
+    teams.sort((a, b) => parseFloat(b.score) - parseFloat(a.score))
 
     // save()
 
-    for (i = 0; i < teams.length; i++){
-        if (teams[i].score == teams[0].score){
+    for (i = 0; i < teams.length; i++) {
+        if (teams[i].score == teams[0].score) {
             winners.push(teams[i])
         } else {
             break
@@ -536,7 +725,7 @@ function findWinner() {
     }
 
     console.log(winners)
-    if (winners.length == 1){
+    if (winners.length == 1) {
         alert(winners[0].teamName + " won!!!!!!! ")
     } else {
         alert("tie between " + winners)

@@ -82,7 +82,7 @@ nav {
 }
 
 #pairingsTable td:first-child {
-    border-right: 2px solid #c11214;
+    /* border-right: 2px solid #c11214; */
     width: 4%;
 }
 
