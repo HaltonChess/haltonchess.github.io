@@ -173,7 +173,10 @@ function createFirstRound() {
         // for if there is an uneven # of teams
         else {
             currentRound.push([teams[i]])
+            teams[i].matchPoints[0] = 0.5
+            teams[i].score = 0.5
             byes.push(teams[i].teamName)
+            
         }
     }
 
@@ -214,7 +217,8 @@ function makeNextPairings() {
 
 
     // sort teams by score (match points)
-    teamsCopy = [...teams].sort((a, b) => b.score - a.score)
+    teams.sort((a, b) => b.score - a.score) // sort original
+    teamsCopy = [...teams]  
 
     console.log(teamsCopy)
 
@@ -231,6 +235,7 @@ function makeNextPairings() {
             // if a team did not already get a bye, give the bye to them
             if (!byes.includes(teamsCopy[i].teamName)) {
                 currentRound.push([teamsCopy[i]])
+                teams[i].score = teams[i].score+0.5 // add 0.5 to their score (its not added to matchpoints tho rip)
                 byes.push(teamsCopy[i].teamName)
                 console.log(`${teamsCopy[i].teamName} got the bye`)
                 teamsCopy.splice(i, 1)
