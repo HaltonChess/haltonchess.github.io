@@ -250,17 +250,19 @@ function makeNextPairings() {
         for (i = 1; i < teamsCopy.length; i++) {
             teamB = teamsCopy[i]
 
-
+            // check if pair is a repeat
             if (isRepeat(teamA.teamName, teamB.teamName)) {
                 console.log(`i almost repeated a match between ${teamA.teamName} and ${teamB.teamName}. I'm ashamed of my actions`)
                 continue
             }
 
-            console.log(teamA.teamName.slice(0, 4))
-            if (teamA.teamName.slice(0, 4) == teamB.teamName.slice(0, 4)) {
-                console.log(`${teamA.teamName} and ${teamB.teamName} are the same school huh...`)
-                continue
-            }
+
+            // // check if pair is from the same school
+            // console.log(teamA.teamName.slice(0, 4))
+            // if (teamA.teamName.slice(0, 4) == teamB.teamName.slice(0, 4)) {
+            //     console.log(`${teamA.teamName} and ${teamB.teamName} are the same school huh...`)
+            //     continue
+            // }
 
 
             // randomize white and black
