@@ -241,7 +241,7 @@
   </script>
 
 
-  <!-- GSheets API Code -->
+  <!-- GSheets API Code (from docs) -->
   <script type="text/javascript">
     const CLIENT_ID = '571144793072-61ceeflig6tpb0ddpurbsgppq1ia91qo.apps.googleusercontent.com';
     const API_KEY = 'AIzaSyDaoMFGDcs1oCHYV3xFhdlQtqEqA8oTL1g';
@@ -268,7 +268,7 @@
       maybeEnableButtons();
     }
 
-    // Callback after Google Identity Services are loaded.
+    // callback after Google Identity Services are loaded
     function gisLoaded() {
       tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
@@ -335,4 +335,3 @@
 </body>
 
 </html>
-<!-- [END sheets_quickstart] -->

@@ -1,14 +1,4 @@
 // needs to be able to at least generate the 8th round (so the scores from the 7th can be added)
-// currently, when it backs itself into a corner it can't get out of, the code gets stuck in an infinite loop 
-
-
-// the winning buttons don't work properly sometimes
-// has to do with the fail safe for when code backs itself into a corner
-// there is nothing to fix the colors if they don't match
-// update: the winning buttons should work now, let's check tho
-
-
-
 
 let players = []
 let toDelete = []
@@ -23,6 +13,19 @@ let color = ["#81B64C", "#bde992", "transparent"] // win, tie, lose
 let byes = []  // list of players who have had a bye
 
 let confirmed = false  // keep track of whether or not they confirmed pairings
+
+
+/*
+player = {
+    name: "",
+    school: "",
+    score: 0,
+    color: "black" or "white"
+}
+
+
+one pairing = [playerA, playerB, result]
+*/
 
 function showButton(button) {
     if (button == "manual") {
@@ -217,7 +220,7 @@ function createFirstPairings() {
     players = []
 
 
-    // sort the schools by largest size
+    // sort the schools by list size (descending)
     let counter = 0
     while (counter < 9) {
         counter = 0;
@@ -237,7 +240,7 @@ function createFirstPairings() {
     // keep repeating until the school with the most kids has reached 0
     while (playersBySchool[0].length != 0) {
 
-        // check that there isn't only one school left
+        // check that there isn't only one non-empty school left
         if (playersBySchool[1].length > 0) {
             playersBySchool[0][0].color = "white"
             playersBySchool[1][0].color = "black"
@@ -317,7 +320,9 @@ function updateStandings(players) {
 
 
 function isRepeat(playerA, playerB) {
+    // iterate through each round
     for (j = 0; j < pairings.length; j++) {
+        // iterate through each pairing in the round
         for (k = 0; k < pairings[j].length; k++) {
             if (pairings[j][k].length != 2) {
                 if ((pairings[j][k][0].name == playerA && pairings[j][k][1].name == playerB) || (pairings[j][k][0].name == playerB && pairings[j][k][1].name == playerA)) {
@@ -348,7 +353,6 @@ function saveLastPairings() {
                 pairings[pairings.length - 1][i].push(1)
                 playerA.score += 0.5
                 playerB.score += 0.5
-
             }
 
             // playerA win
@@ -379,12 +383,12 @@ function saveLastPairings() {
 
 
     // delete players that dropped out
-    console.log("need to delete this", toDelete)
+    console.log("need to delete ppl from this list:", toDelete)
     for (i = 0; i < players.length; i++) {
 
         if (toDelete.includes(players[i].name)) {
             players.splice(i, 1)
-            console.log("just remove him")
+            console.log("delete them")
         }
     }
 
@@ -400,16 +404,16 @@ function makeNextPairings() {
     saveLastPairings()
 
     // PRIORITY
-    // - NEVER play have same pairing twice
+    // - NEVER have same pairing twice
     // - score proximity
     //    - top players get first priority though, they need to be with their kind
     // - players should be from different schools
     // - players should be opposite colors
-    //    - this becomes higher priority if a player had same color 3 times, but worry abt it later
+    //    - this becomes higher priority the more repeat colours players have
 
 
 
-    // get list of players by school, just so we know the order of schools
+    // get list of players by school
     playersBySchool = [[], [], [], [], [], [], [], [], [], []]
     for (i = 0; i < players.length; i++) {
         playersBySchool[schools.indexOf(players[i].school)].push(players[i])
@@ -427,8 +431,10 @@ function makeNextPairings() {
     players = []
 
 
-    // order every score category by school size (players from biggest schools)
+    // iterate through every points bracket
     for (i = 0; i < playersByPoints.length; i++) {
+
+        // bubble sort each bracket by player's school size
         let counter = 0
         while (counter < playersByPoints[i].length - 1) {
             counter = 0;
@@ -458,13 +464,9 @@ function makeNextPairings() {
     // if they haven't, check that the other pair is also not a repeat
     // if success, switch the pairs
 
-    // this algo works
-    // but now that i think of it, why do the 2 players we choose to switch with have to be in a pair alrd? can't we just go individually?
 
 
-
-
-    // if odd # of players, determine who gets the bye
+    // if odd # of players, determine who gets the bye first
     if (playersByPoints.length % 2 != 0) {
 
         // go through the players, lowest players first
@@ -473,11 +475,17 @@ function makeNextPairings() {
             // if a player did not already get a bye, give the bye to them
             if (!byes.includes(playersByPoints[i].name)) {
                 currentPairings.push([playersByPoints[i], 2])
-                byes.push(playersByPoints[i].name)
+                byes.push(playersByPoints[i].name) 
                 console.log(`${playersByPoints[i].name} got the bye`)
                 playersByPoints.splice(i, 1)
                 break
             }
+        }
+
+        // if no one was removed, print MATCH OVER and return
+        if (playersByPoints.length % 2 != 0) {
+            alert("MATCH OVER - ALL PLAYERS HAVE HAD A BYE")
+            return
         }
     }
 
@@ -628,6 +636,7 @@ function makeNextPairings() {
         }
 
         else {
+            // imperfect solution
             console.log("awwww, poor guy can't play anyone :(\nmoving to bottom and praying we find smth")
             playersByPoints.push(playerA)
         }

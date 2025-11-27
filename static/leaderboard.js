@@ -135,6 +135,7 @@ async function submitMatch() {
     winnerIndex = leaderboard.indexOf(winner)
     loserIndex = leaderboard.indexOf(loser)
 
+    // check for edge cases
     if (winnerIndex == -1 || loserIndex == -1) {
         alert("a player was not found - make sure they are in the leaderboard sheet")
         return;
@@ -179,10 +180,11 @@ async function submitMatch() {
 }
 
 
+// derank "bad players"
 function derank() {
     goodPlayers = []
 
-    // for every player
+    // iterate through every player backwards (avoids index issues when splicing)
     for (i = leaderboard.length - 1; i > -1; i--) {
 
         // insert an "empty" slot in front of every bad player
