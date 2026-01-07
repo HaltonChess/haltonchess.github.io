@@ -162,7 +162,7 @@ async function submitMatch() {
 
 
 
-    // remove loser from players list
+    // remove loser from bad players list
     if (badPlayers.includes(loser)) {
         badPlayers[badPlayers.indexOf(loser)] = "";
         console.log(loser, "removed from 'badPlayers' list");
@@ -186,6 +186,10 @@ function derank() {
 
     // iterate through every player backwards (avoids index issues when splicing)
     for (i = leaderboard.length - 1; i > -1; i--) {
+        
+        if (leaderboard[i] == "empty") {
+            continue
+        }
 
         // insert an "empty" slot in front of every bad player
         if (badPlayers.includes(leaderboard[i])) {

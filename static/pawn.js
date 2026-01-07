@@ -322,6 +322,7 @@ function updateStandings(players) {
 function isRepeat(playerA, playerB) {
     // iterate through each round
     for (j = 0; j < pairings.length; j++) {
+
         // iterate through each pairing in the round
         for (k = 0; k < pairings[j].length; k++) {
             if (pairings[j][k].length != 2) {
@@ -703,6 +704,7 @@ function makeNextPairings() {
         console.log("i", i)
         if (i==-1){
             console.log("---------------------END OF MATCH. NO MORE PAIRINGS POSSIBLE.---------------------")
+            return
         }
         console.log(currentPairings[i])
 
@@ -753,6 +755,7 @@ function makeNextPairings() {
         } else {
             playerC.color = "black"
         }
+
 
         // if they have different colors, switch both
     } else {
